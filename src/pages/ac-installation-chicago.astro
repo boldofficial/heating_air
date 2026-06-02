@@ -1,0 +1,94 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Hero from '../components/Hero.astro';
+import ContactForm from '../components/ContactForm.astro';
+import FAQ from '../components/FAQ.astro';
+import LocalBusinessSchema from '../components/LocalBusinessSchema.astro';
+import { BUSINESS, SITE_CONFIG } from '../config/business';
+
+const canonical = `${SITE_CONFIG.url}/ac-installation-chicago/`;
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'AC Installation', path: '/ac-installation-chicago/' },
+];
+
+const faqItems = [
+  { question: 'How do I know if I need AC replacement or repair?', answer: 'If your AC system is over 12-15 years old, requires frequent repairs, uses R-22 refrigerant (being phased out), or your energy bills are rising, replacement may be the better investment. We provide honest assessments to help you decide.' },
+  { question: 'What AC brands do you install?', answer: 'We install a wide range of quality HVAC brands. During your consultation, we\'ll recommend the best options based on your home size, efficiency goals, and budget.' },
+  { question: 'How long does AC installation take?', answer: 'Most AC installations are completed in one day. Full system replacements with ductwork modifications may take longer. We provide a detailed timeline during your consultation.' },
+  { question: 'How much does a new AC system cost in Chicago?', answer: 'Costs vary based on system size, efficiency rating, and installation complexity. We provide free, detailed estimates with transparent pricing. Contact us for a quote tailored to your home.' },
+];
+---
+
+<BaseLayout title={`AC Installation in Chicago, IL | Air Conditioning Replacement | ${BUSINESS.name}`} description={`Professional AC installation and replacement in Chicago, IL. Energy-efficient systems, expert installation, and honest guidance. Call ${BUSINESS.phone} for a free estimate.`} canonical={canonical} breadcrumbs={breadcrumbs}>
+  <LocalBusinessSchema page="service" serviceName="AC Installation & Replacement" serviceDescription="Professional air conditioning installation and system replacement in Chicago, IL." />
+  <Header currentPath="/ac-installation-chicago/" breadcrumbs={breadcrumbs} />
+
+  <main>
+    <Hero headline="AC Installation &amp; Replacement in Chicago" subheadline="Upgrade to a newer, more efficient cooling system. We help you choose the right AC unit and install it professionally." backgroundImage="/images/chicago-heating-air/HeaderHVACInstallation-AC-Repair-0.jpg" variant="interior" />
+
+    <section class="section">
+      <div class="container">
+        <div class="content-grid">
+          <div>
+            <span class="section-tag">Service Detail</span>
+            <h2>Expert AC Installation &amp; Replacement</h2>
+            <p>When it's time for a new air conditioning system, you need expert guidance and professional installation. At {BUSINESS.name}, we take the time to understand your home's cooling needs and recommend the right system for your space and budget.</p>
+            <p>Our NATE-certified technicians handle every aspect of the installation — from removing your old system to testing your new one. We ensure your new AC runs efficiently and reliably for years to come.</p>
+            <h3 style="margin-top:2rem;font-size:1.25rem;">Benefits of AC Replacement</h3>
+            <ul class="check-list">
+              <li>Improved energy efficiency and lower utility bills</li>
+              <li>Better cooling performance and comfort</li>
+              <li>Reduced repair costs</li>
+              <li>Quieter operation with newer systems</li>
+              <li>Modern refrigerants and smart home compatibility</li>
+              <li>Improved indoor air quality options</li>
+            </ul>
+          </div>
+          <div class="content-sidebar">
+            <div class="sidebar-cta">
+              <h3>Free Installation Estimate</h3>
+              <p>Contact us for a free consultation and pricing.</p>
+              <a href={`tel:${BUSINESS.phoneRaw}`} class="btn btn-primary" style="width:100%;justify-content:center;padding:1rem;">{BUSINESS.phone}</a>
+              <a href="/contact/" class="btn btn-outline" style="width:100%;justify-content:center;margin-top:0.75rem;">Request Estimate</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="background:#f8fafc;">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Our Process</span>
+          <h2>How We Install Your System</h2>
+          <p class="section-desc">A professional, transparent process from start to finish.</p>
+        </div>
+        <div class="process-steps-alt">
+          <div class="process-card">
+            <span class="process-card-number" aria-hidden="true">01</span>
+            <h3>Home Assessment</h3>
+            <p>We evaluate your home's size, insulation, and existing ductwork to recommend the right system for your needs.</p>
+          </div>
+          <div class="process-card">
+            <span class="process-card-number" aria-hidden="true">02</span>
+            <h3>System Selection</h3>
+            <p>We help you choose the best AC system for your efficiency goals and budget with clear price comparisons.</p>
+          </div>
+          <div class="process-card">
+            <span class="process-card-number" aria-hidden="true">03</span>
+            <h3>Professional Installation</h3>
+            <p>Our team installs your new system carefully, tests thoroughly, and cleans up completely before we leave.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <FAQ items={faqItems} title="AC Installation Questions" subtitle="Common questions about AC installation and replacement." />
+    <ContactForm title="Get Your Free AC Installation Quote" subtitle="Tell us about your home and we'll provide a detailed estimate." />
+  </main>
+
+  <Footer />
+</BaseLayout>

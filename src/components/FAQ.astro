@@ -1,0 +1,116 @@
+---
+import { BUSINESS, SITE_CONFIG } from '../config/business';
+
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  items: FAQItem[];
+  title?: string;
+  subtitle?: string;
+}
+
+const { items, title = 'Frequently Asked Questions', subtitle } = Astro.props;
+---
+
+<section class="faq-section section" aria-label="Frequently asked questions">
+  <div class="container">
+    <div class="faq-header text-center">
+      <h2 class="faq-title">{title}</h2>
+      {subtitle && <p class="faq-subtitle">{subtitle}</p>}
+    </div>
+
+    <div class="faq-list" role="list">
+      {items.map((item, index) => (
+        <details class="faq-item" role="listitem" key={index}>
+          <summary class="faq-question">
+            <span>{item.question}</span>
+            <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </summary>
+          <div class="faq-answer">
+            <p>{item.answer}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": items.map((item) => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer,
+    },
+  })),
+})} />
+
+<style is:global>
+  .faq-header { margin-bottom: 3rem; }
+
+  .faq-title { margin-bottom: 0.75rem; }
+
+  .faq-subtitle {
+    color: #64748b;
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .faq-list {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .faq-item {
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .faq-item[open] { border-color: #f97316; }
+
+  .faq-question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    font-weight: 600;
+    font-size: 1rem;
+    color: #1a1a2e;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .faq-question::-webkit-details-marker { display: none; }
+
+  .faq-question:hover { background: #f8fafc; }
+
+  .faq-chevron {
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+    color: #f97316;
+  }
+
+  .faq-item[open] .faq-chevron { transform: rotate(180deg); }
+
+  .faq-answer {
+    padding: 0 1.5rem 1.25rem;
+    color: #475569;
+    font-size: 0.9375rem;
+    line-height: 1.7;
+  }
+</style>

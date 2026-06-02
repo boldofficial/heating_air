@@ -1,0 +1,80 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Hero from '../components/Hero.astro';
+import ContactForm from '../components/ContactForm.astro';
+import FAQ from '../components/FAQ.astro';
+import LocalBusinessSchema from '../components/LocalBusinessSchema.astro';
+import { BUSINESS, SITE_CONFIG } from '../config/business';
+
+const canonical = `${SITE_CONFIG.url}/furnace-repair-chicago/`;
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Furnace Repair', path: '/furnace-repair-chicago/' },
+];
+
+const faqItems = [
+  { question: 'How do I know if my furnace needs repair?', answer: 'Common signs include uneven heating, strange noises (banging, squealing, or rumbling), unusually high energy bills, frequent cycling, yellow pilot light, or the furnace not producing heat at all. If you notice any of these, call us for a diagnostic.' },
+  { question: 'How quickly can you fix a furnace in Chicago?', answer: 'We prioritize heating repairs, especially during winter. Most standard repairs are completed the same day. Call us for availability and we\'ll get a technician to you as soon as possible.' },
+  { question: 'Why is my furnace blowing cold air?', answer: 'This could be caused by a dirty flame sensor, faulty thermocouple, gas valve issues, pilot light problems, or a clogged air filter. Our technicians will diagnose the exact cause and fix it.' },
+  { question: 'Do you offer emergency furnace repair?', answer: 'Yes, we provide emergency heating repair service. If your furnace stops working during cold weather, call us immediately and we will prioritize your service request.' },
+];
+---
+
+<BaseLayout title={`Furnace Repair in Chicago, IL | Heating Repair | ${BUSINESS.name}`} description={`Expert furnace and heating repair in Chicago, IL. Fast, reliable service when your heat goes out. NATE-certified technicians. Call ${BUSINESS.phone} for same-day furnace repair.`} canonical={canonical} breadcrumbs={breadcrumbs}>
+  <LocalBusinessSchema page="service" serviceName="Furnace Repair" serviceDescription="Professional furnace and heating repair service in Chicago, IL. Expert diagnostics and repairs for all heating systems." />
+  <Header currentPath="/furnace-repair-chicago/" breadcrumbs={breadcrumbs} />
+
+  <main>
+    <Hero headline="Furnace &amp; Heating Repair in Chicago" subheadline="When your furnace stops working on a cold Chicago night, we respond fast. Expert heating repair you can count on." backgroundImage="/images/chicago-heating-air/headerhvacservice-0.jpg" variant="interior" />
+
+    <section class="section">
+      <div class="container">
+        <div class="content-grid">
+          <div>
+            <span class="section-tag">Service Detail</span>
+            <h2>Professional Furnace Repair Service</h2>
+            <p>Chicago winters demand reliable heating. At {BUSINESS.name}, our NATE-certified technicians are ready to diagnose and repair any furnace or heating system issue quickly. We treat every home like our own — with respect, care, and professionalism.</p>
+            <p>Whether you have a gas furnace, heat pump, or electric heating system, we have the expertise to get your home warm again. We provide upfront pricing so you know exactly what to expect before we begin any work.</p>
+            <h3 style="margin-top:2rem;font-size:1.25rem;">Common Heating Issues We Fix</h3>
+            <ul class="check-list">
+              <li>Furnace not producing heat</li>
+              <li>Pilot light or ignition failure</li>
+              <li>Blower motor problems</li>
+              <li>Thermostat malfunctions</li>
+              <li>Gas valve issues</li>
+              <li>Heat exchanger cracks</li>
+              <li>Dirty burners or flame sensor</li>
+              <li>Strange furnace noises</li>
+              <li>High energy bills</li>
+              <li>Uneven heating throughout home</li>
+            </ul>
+          </div>
+          <div class="content-sidebar">
+            <div class="sidebar-cta">
+              <h3>Heating Emergency?</h3>
+              <p>Don't wait until your pipes freeze. Call us for fast furnace repair.</p>
+              <a href={`tel:${BUSINESS.phoneRaw}`} class="btn btn-primary" style="width:100%;justify-content:center;padding:1rem;">{BUSINESS.phone}</a>
+              <a href="/contact/" class="btn btn-outline" style="width:100%;justify-content:center;margin-top:0.75rem;">Request Service</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="background:#0f172a;color:#fff;">
+      <div class="container" style="text-align:center;">
+        <span class="section-tag section-tag--white">Preventative Care</span>
+        <h2 style="color:#fff;">Don't Wait Until Your Heat Goes Out</h2>
+        <p style="color:#94a3b8;font-size:1.05rem;max-width:600px;margin:0.75rem auto 2rem;line-height:1.7;">Schedule a heating inspection today and catch problems before they become emergencies.</p>
+        <a href="/hvac-maintenance-chicago/" class="btn btn-primary" style="padding:1rem 2.5rem;font-size:1.125rem;">Learn About Maintenance Plans</a>
+      </div>
+    </section>
+
+    <FAQ items={faqItems} title="Furnace Repair Questions" subtitle="Common questions about heating repair in Chicago." />
+    <ContactForm title="Schedule Furnace Repair" subtitle="Fill out the form and we'll contact you to schedule your heating repair." />
+  </main>
+
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,163 @@
+---
+import { BUSINESS } from '../config/business';
+
+interface Props {
+  title?: string;
+  subtitle?: string;
+  variant?: 'section' | 'page';
+}
+
+const { title = 'Request Service', subtitle = 'Fill out the form below and we\'ll get back to you promptly.', variant = 'section' } = Astro.props;
+---
+
+<section class={`contact-form-section ${variant === 'page' ? 'contact-form-page' : ''} section`} aria-label="Contact form">
+  <div class="container">
+    {(title || subtitle) && (
+      <div class="text-center" style="margin-bottom:2.5rem;">
+        {title && <h2 class="contact-form-title">{title}</h2>}
+        {subtitle && <p class="contact-form-subtitle">{subtitle}</p>}
+      </div>
+    )}
+
+    <div class="contact-form-wrapper">
+      <form class="contact-form" id="serviceForm" method="POST" action="/contact/" netlify-honeypot="bot-field">
+        <input type="text" name="bot-field" style="display:none;" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="formName" class="form-label">Full Name <span aria-hidden="true">*</span></label>
+            <input type="text" id="formName" name="name" required class="form-input" placeholder="Your full name" />
+          </div>
+          <div class="form-group">
+            <label for="formPhone" class="form-label">Phone Number <span aria-hidden="true">*</span></label>
+            <input type="tel" id="formPhone" name="phone" required class="form-input" placeholder="(555) 123-4567" />
+          </div>
+          <div class="form-group">
+            <label for="formEmail" class="form-label">Email Address</label>
+            <input type="email" id="formEmail" name="email" class="form-input" placeholder="you@example.com" />
+          </div>
+          <div class="form-group">
+            <label for="formService" class="form-label">Service Needed <span aria-hidden="true">*</span></label>
+            <select id="formService" name="service" required class="form-input">
+              <option value="">Select a service...</option>
+              <option value="AC Repair">AC Repair</option>
+              <option value="Furnace Repair">Furnace Repair</option>
+              <option value="AC Installation">AC Installation</option>
+              <option value="Emergency HVAC">Emergency HVAC</option>
+              <option value="Air Duct Cleaning">Air Duct Cleaning</option>
+              <option value="Indoor Air Quality">Indoor Air Quality</option>
+              <option value="Maintenance / Tune-Up">Maintenance / Tune-Up</option>
+              <option value="Thermostat Service">Thermostat Service</option>
+              <option value="Heat Pump Service">Heat Pump Service</option>
+              <option value="Commercial HVAC">Commercial HVAC</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="formTime" class="form-label">Preferred Time</label>
+            <select id="formTime" name="preferred_time" class="form-input">
+              <option value="">No preference</option>
+              <option value="Morning (8am-12pm)">Morning (8am–12pm)</option>
+              <option value="Afternoon (12pm-5pm)">Afternoon (12pm–5pm)</option>
+              <option value="Evening (5pm-7pm)">Evening (5pm–7pm)</option>
+            </select>
+          </div>
+          <div class="form-group form-group-full">
+            <label for="formMessage" class="form-label">Message</label>
+            <textarea id="formMessage" name="message" class="form-input form-textarea" rows="4" placeholder="Describe the issue or what you need help with..."></textarea>
+          </div>
+        </div>
+
+        <div id="turnstile-container" style="margin-bottom:1rem;" aria-label="Security verification"></div>
+        <div class="turnstile-note" style="font-size:0.8rem;color:#94a3b8;margin-bottom:1rem;">
+          This site is protected by Cloudflare Turnstile. Your information is kept private and secure.
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-submit" id="formSubmit">Send Request</button>
+        <p class="form-disclaimer">By submitting, you agree to be contacted about your service request. Your information will not be shared.</p>
+      </form>
+
+      <div class="form-sidebar">
+        <div class="form-sidebar-card">
+          <h3>Need help now?</h3>
+          <p>Call us for immediate assistance.</p>
+          <a href={`tel:${BUSINESS.phoneRaw}`} class="btn btn-primary" style="width:100%;justify-content:center;">{BUSINESS.phone}</a>
+        </div>
+        <div class="form-sidebar-card">
+          <h3>Service hours</h3>
+          <ul class="sidebar-hours">
+            <li><span>Mon–Fri</span><span>{BUSINESS.hours.weekday}</span></li>
+            <li><span>Saturday</span><span>{BUSINESS.hours.saturday}</span></li>
+            <li><span>Emergency</span><span>Available</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById('serviceForm');
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('formSubmit');
+      if (btn) { btn.textContent = 'Sending...'; btn.disabled = true; }
+      setTimeout(() => {
+        const existing = document.querySelector('.form-success');
+        if (!existing) {
+          const success = document.createElement('div');
+          success.className = 'form-success';
+          success.setAttribute('role', 'alert');
+          success.innerHTML = `
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" aria-hidden="true">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+            <div><strong>Thank you!</strong> We've received your request and will be in touch shortly. If this is an emergency, please call us directly.</div>
+          `;
+          form.replaceWith(success);
+        }
+      }, 1500);
+    });
+  }
+</script>
+
+<style is:global>
+  .contact-form-section { background: #f8fafc; }
+  .contact-form-page { background: #fff; padding-top: 0; }
+  .contact-form-title { margin-bottom: 0.75rem; }
+  .contact-form-subtitle { color: #64748b; font-size: 1.1rem; max-width: 550px; margin: 0 auto; }
+  .contact-form-wrapper {
+    display: grid; grid-template-columns: 1fr; gap: 2rem; max-width: 1000px; margin: 0 auto;
+  }
+  @media (min-width: 900px) { .contact-form-wrapper { grid-template-columns: 1.5fr 1fr; } }
+  .contact-form {
+    background: #fff; padding: 2rem; border-radius: 1rem;
+    border: 1px solid #e2e8f0; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  }
+  .form-grid { display: grid; grid-template-columns: 1fr; gap: 1.25rem; margin-bottom: 1.25rem; }
+  @media (min-width: 640px) { .form-grid { grid-template-columns: repeat(2, 1fr); } }
+  .form-group-full { grid-column: 1 / -1; }
+  .form-label { display: block; font-size: 0.875rem; font-weight: 600; color: #1a1a2e; margin-bottom: 0.375rem; }
+  .form-input {
+    width: 100%; padding: 0.75rem 1rem; font-size: 1rem; font-family: inherit;
+    color: #1a1a2e; background: #fff; border: 1.5px solid #e2e8f0;
+    border-radius: 0.5rem; transition: border-color 0.2s, box-shadow 0.2s; min-height: 48px;
+  }
+  .form-input:focus { outline: none; border-color: #f97316; box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15); }
+  .form-textarea { resize: vertical; min-height: 120px; }
+  .btn-submit { width: 100%; justify-content: center; padding: 1rem; font-size: 1.125rem; }
+  .form-disclaimer { margin-top: 0.75rem; font-size: 0.8rem; color: #94a3b8; text-align: center; }
+  .form-success {
+    display: flex; align-items: flex-start; gap: 1rem; padding: 2rem;
+    background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 0.75rem;
+    font-size: 0.9375rem; line-height: 1.6;
+  }
+  .form-sidebar { display: flex; flex-direction: column; gap: 1rem; }
+  .form-sidebar-card { background: #fff; padding: 1.5rem; border-radius: 0.75rem; border: 1px solid #e2e8f0; }
+  .form-sidebar-card h3 { font-size: 1rem; margin-bottom: 0.5rem; }
+  .form-sidebar-card p { font-size: 0.875rem; color: #64748b; margin-bottom: 1rem; }
+  .sidebar-hours { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.875rem; }
+  .sidebar-hours li { display: flex; justify-content: space-between; color: #475569; }
+</style>

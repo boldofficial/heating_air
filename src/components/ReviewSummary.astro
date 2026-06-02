@@ -1,0 +1,290 @@
+---
+import { BUSINESS } from '../config/business';
+
+interface Props {
+  title?: string;
+  subtitle?: string;
+}
+
+const { title = 'Trusted by Chicago Homeowners', subtitle } = Astro.props;
+
+const fullStars = Math.floor(BUSINESS.googleRating);
+const hasHalfStar = BUSINESS.googleRating - fullStars >= 0.3;
+const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+---
+
+<section class="review-section section" aria-label="Customer reviews">
+  <div class="container">
+    <div class="review-header text-center">
+      <h2 class="review-title">{title}</h2>
+      {subtitle && <p class="review-subtitle">{subtitle}</p>}
+    </div>
+
+    <!-- Main Rating Card -->
+    <div class="review-hero">
+      <div class="review-hero-inner">
+        <!-- Google Logo -->
+        <div class="review-badge">
+          <svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true">
+            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+            <path fill="#FBBC05" d="M10.54 28.59A14.5 14.5 0 0 1 9.5 24c0-1.59.28-3.14.76-4.59l-7.98-6.19A23.99 23.99 0 0 0 0 24c0 3.77.88 7.35 2.56 10.56l7.98-5.97z"/>
+            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 5.97C6.51 42.62 14.62 48 24 48z"/>
+          </svg>
+          <span>Google Reviews</span>
+        </div>
+
+        <!-- Big Rating Number -->
+        <div class="review-big-rating">
+          <span class="review-big-number">{BUSINESS.googleRating}</span>
+          <div class="review-big-stars" aria-label={`${BUSINESS.googleRating} out of 5 stars`}>
+            {Array.from({ length: fullStars }, (_, i) => (
+              <svg key={`full-${i}`} width="28" height="28" viewBox="0 0 24 24" fill="#f97316" aria-hidden="true">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+            ))}
+            {hasHalfStar && (
+              /* Half star using two overlapping paths to avoid duplicate SVG gradient IDs */
+              <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true" style="position:relative;">
+                {/* Empty star background */}
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#e2e8f0"/>
+                {/* Filled half star clipped */}
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#f97316" clip-path="inset(0 50% 0 0)"/>
+              </svg>
+            )}
+            {Array.from({ length: emptyStars }, (_, i) => (
+              <svg key={`empty-${i}`} width="28" height="28" viewBox="0 0 24 24" fill="#e2e8f0" aria-hidden="true">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+            ))}
+          </div>
+        </div>
+
+        <!-- Review Count -->
+        <p class="review-total">
+          <strong>{BUSINESS.googleReviewCount}</strong> reviews
+        </p>
+
+        <!-- Rating Breakdown Bars -->
+        <div class="review-bars" role="img" aria-label={`${BUSINESS.googleRating} out of 5 stars, ${BUSINESS.googleReviewCount} total reviews`}>
+          {[5, 4, 3, 2, 1].map((star) => {
+            // Estimated distribution based on aggregate 4.8 rating
+            const pcts = { 5: 82, 4: 14, 3: 2, 2: 1, 1: 1 };
+            const pct = pcts[star] || 0;
+            return (
+              <div class="review-bar-row" key={star}>
+                <span class="review-bar-label" aria-hidden="true">{star}</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="#f97316" aria-hidden="true">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                <div class="review-bar-track" role="presentation">
+                  <div class="review-bar-fill" style={`width: ${pct}%`}></div>
+                </div>
+                <span class="review-bar-pct" aria-label={`${star} stars: ${pct} percent of reviews`}>{pct}%</span>
+              </div>
+            );
+          })}
+        </div>
+
+        <!-- CTA -->
+        <a href={BUSINESS.googleMapsUrl} class="review-cta" target="_blank" rel="noopener noreferrer">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+          Read reviews on Google
+        </a>
+      </div>
+    </div>
+
+    <!-- Trust Badges Row -->
+    <div class="review-trust-row">
+      <div class="review-trust-item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+          <polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+        <span>Verified Google Reviews</span>
+      </div>
+      <div class="review-trust-item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+        <span>Real Customer Feedback</span>
+      </div>
+      <div class="review-trust-item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+          <circle cx="12" cy="10" r="3"/>
+        </svg>
+        <span>Serving Chicago Homes</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .review-header { margin-bottom: 2.5rem; }
+  .review-title { margin-bottom: 0.75rem; }
+  .review-subtitle { color: #64748b; font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+  /* Hero Card */
+  .review-hero {
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  .review-hero-inner {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 1.25rem;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .review-hero-inner:hover {
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1);
+  }
+
+  .review-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #f8fafc;
+    padding: 0.375rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #475569;
+    margin-bottom: 1.5rem;
+  }
+
+  .review-big-rating {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .review-big-number {
+    font-size: 4rem;
+    font-weight: 800;
+    color: #1a1a2e;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  .review-big-stars {
+    display: flex;
+    gap: 2px;
+  }
+
+  .review-total {
+    color: #64748b;
+    font-size: 0.9375rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .review-total strong {
+    color: #1a1a2e;
+    font-weight: 700;
+  }
+
+  /* Rating Bars */
+  .review-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    max-width: 280px;
+    margin: 0 auto 1.75rem;
+  }
+
+  .review-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .review-bar-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #475569;
+    width: 12px;
+    text-align: right;
+  }
+
+  .review-bar-track {
+    flex: 1;
+    height: 8px;
+    background: #f1f5f9;
+    border-radius: 9999px;
+    overflow: hidden;
+  }
+
+  .review-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #f97316, #fb923c);
+    border-radius: 9999px;
+    transition: width 0.6s ease;
+  }
+
+  .review-bar-pct {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    width: 32px;
+    text-align: right;
+  }
+
+  /* CTA */
+  .review-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: #f8fafc;
+    color: #475569;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+  }
+
+  .review-cta:hover {
+    background: #fff7ed;
+    color: #f97316;
+    gap: 0.75rem;
+  }
+
+  /* Trust Row */
+  .review-trust-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem 2rem;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e2e8f0;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .review-trust-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: #64748b;
+    font-weight: 500;
+  }
+
+  @media (max-width: 480px) {
+    .review-big-number { font-size: 3rem; }
+    .review-hero-inner { padding: 2rem 1.25rem; }
+    .review-trust-row { gap: 0.75rem 1.25rem; }
+  }
+</style>

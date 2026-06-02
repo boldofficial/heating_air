@@ -1,0 +1,335 @@
+---
+import { SITE_CONFIG, BUSINESS } from '../config/business';
+
+export interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  ogImage?: string;
+  ogType?: string;
+  noIndex?: boolean;
+  breadcrumbs?: { name: string; path: string }[];
+}
+
+const {
+  title,
+  description,
+  canonical,
+  ogImage = '/images/chicago-heating-air/HeaderHVACInstallation-AC-Repair-0.jpg',
+  ogType = 'website',
+  noIndex = false,
+  breadcrumbs,
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Primary Meta -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <!-- Robots -->
+    {noIndex && <meta name="robots" content="noindex, nofollow" />}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={BUSINESS.name} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image" content={`${SITE_CONFIG.url}${ogImage}`} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={`${SITE_CONFIG.url}${ogImage}`} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- JSON-LD Breadcrumbs -->
+    {breadcrumbs && breadcrumbs.length > 0 && (
+      <script type="application/ld+json" set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": breadcrumbs.map((crumb, i) => ({
+          "@type": "ListItem",
+          "position": i + 1,
+          "name": crumb.name,
+          "item": `${SITE_CONFIG.url}${crumb.path}`,
+        })),
+      })} />
+    )}
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #1a1a2e;
+    background: #ffffff;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  main {
+    flex: 1;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button {
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  :focus-visible {
+    outline: 3px solid #f97316;
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    line-height: 1.2;
+    font-weight: 700;
+  }
+
+  h1 { font-size: clamp(2rem, 5vw, 3.5rem); }
+  h2 { font-size: clamp(1.5rem, 3.5vw, 2.5rem); }
+  h3 { font-size: clamp(1.2rem, 2.5vw, 1.75rem); }
+
+  /* Prevent CLS from breadcrumb bar */
+  .breadcrumb-bar {
+    min-height: 38px;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .container { padding: 0 2rem; }
+  }
+
+  .section {
+    padding: 4.5rem 0;
+  }
+
+  @media (min-width: 768px) { .section { padding: 5.5rem 0; } }
+  @media (min-width: 1024px) { .section { padding: 6.5rem 0; } }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .text-center { text-align: center; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1;
+    border: none;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    white-space: nowrap;
+    min-height: 48px;
+  }
+
+  .btn-primary { background: #f97316; color: #fff; }
+  .btn-primary:hover, .btn-primary:focus {
+    background: #ea580c;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(249, 115, 22, 0.35);
+  }
+
+  .btn-secondary { background: #1a1a2e; color: #fff; }
+  .btn-secondary:hover, .btn-secondary:focus {
+    background: #2d2d4a;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(26, 26, 46, 0.25);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: #1a1a2e;
+    border: 2px solid #1a1a2e;
+  }
+
+  .btn-outline:hover, .btn-outline:focus {
+    background: #1a1a2e;
+    color: #fff;
+  }
+
+  .btn-white { background: #fff; color: #1a1a2e; }
+  .btn-white:hover, .btn-white:focus {
+    background: #f1f5f9;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+  }
+
+  @media (max-width: 767px) {
+    .btn { padding: 0.75rem 1.25rem; font-size: 0.9375rem; }
+  }
+
+  /* ===== Shared Content Styles (used across service pages) ===== */
+  .content-grid { display: grid; grid-template-columns: 1fr; gap: 2.5rem; align-items: start; max-width: 1000px; margin: 0 auto; }
+  @media (min-width: 800px) { .content-grid { grid-template-columns: 1.5fr 1fr; } }
+  .content-grid h2 { margin-bottom: 1rem; }
+  .content-grid p { color: #475569; font-size: 1rem; line-height: 1.7; margin-bottom: 1rem; }
+
+  .check-list { list-style: none; display: grid; grid-template-columns: 1fr; gap: 0.5rem; margin-top: 1rem; }
+  @media (min-width: 640px) { .check-list { grid-template-columns: repeat(2, 1fr); } }
+  .check-list li {
+    padding: 0.5rem 0 0.5rem 1.75rem;
+    position: relative;
+    font-size: 0.925rem;
+    color: #475569;
+  }
+  .check-list li::before {
+    content: '\2713';
+    position: absolute;
+    left: 2px;
+    top: 0.55rem;
+    width: 18px;
+    height: 18px;
+    background: #f97316;
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sidebar-cta { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 1rem; padding: 2rem; position: sticky; top: 100px; }
+  .sidebar-cta h3 { font-size: 1.125rem; margin-bottom: 0.75rem; }
+  .sidebar-cta p { font-size: 0.9rem; color: #64748b; margin-bottom: 1.25rem; }
+
+
+
+  /* ===== Shared Section Patterns (used by all pages) ===== */
+  .section-header { text-align: center; max-width: 640px; margin: 0 auto 3.5rem; }
+  .section-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #f97316;
+    background: #fff7ed;
+    padding: 0.25rem 0.875rem;
+    border-radius: 9999px;
+    margin-bottom: 0.75rem;
+  }
+  .section-tag--white {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fb923c;
+  }
+  .section-desc {
+    color: #64748b;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin-top: 0.75rem;
+  }
+  .process-steps-alt {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  @media (min-width: 768px) { .process-steps-alt { grid-template-columns: repeat(3, 1fr); } }
+  .process-card {
+    padding: 2.5rem 2rem;
+    background: #f8fafc;
+    border-radius: 1rem;
+    border: 1px solid #f1f5f9;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .process-card:hover {
+    border-color: #f97316;
+    box-shadow: 0 8px 30px rgba(249, 115, 22, 0.06);
+  }
+  .process-card-number {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #f97316;
+    line-height: 1;
+    margin-bottom: 1rem;
+    opacity: 0.3;
+  }
+  .process-card h3 {
+    font-size: 1.125rem;
+    margin-bottom: 0.75rem;
+  }
+  .process-card p {
+    color: #64748b;
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+</style>

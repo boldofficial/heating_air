@@ -1,0 +1,26 @@
+---
+interface Props {
+  href: string;
+  variant?: 'primary' | 'secondary' | 'outline' | 'white';
+  size?: 'sm' | 'md' | 'lg';
+  fullWidth?: boolean;
+  ariaLabel?: string;
+}
+
+const { href, variant = 'primary', size = 'md', fullWidth = false, ariaLabel } = Astro.props;
+
+const sizeClasses: Record<string, string> = {
+  sm: 'cta-sm', md: 'cta-md', lg: 'cta-lg',
+};
+---
+
+<a href={href} class={`btn btn-${variant} ${sizeClasses[size]} ${fullWidth ? 'cta-full' : ''}`} aria-label={ariaLabel}>
+  <slot />
+</a>
+
+<style is:global>
+  .cta-sm { padding: 0.625rem 1.25rem; font-size: 0.875rem; min-height: 40px; }
+  .cta-md { padding: 0.875rem 1.75rem; font-size: 1rem; min-height: 48px; }
+  .cta-lg { padding: 1rem 2rem; font-size: 1.125rem; min-height: 56px; }
+  .cta-full { width: 100%; justify-content: center; }
+</style>

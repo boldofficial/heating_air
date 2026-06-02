@@ -1,0 +1,87 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Hero from '../components/Hero.astro';
+import ContactForm from '../components/ContactForm.astro';
+import FAQ from '../components/FAQ.astro';
+import LocalBusinessSchema from '../components/LocalBusinessSchema.astro';
+import { BUSINESS, SITE_CONFIG } from '../config/business';
+
+const canonical = `${SITE_CONFIG.url}/emergency-hvac-service-chicago/`;
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Emergency HVAC', path: '/emergency-hvac-service-chicago/' },
+];
+
+const faqItems = [
+  { question: 'What qualifies as an HVAC emergency?', answer: 'Situations that require immediate attention include: no heat during freezing weather, AC failure during extreme heat, refrigerant leaks, gas smells near your furnace, electrical issues, or any situation where your system is completely inoperable and affecting your home\'s safety or comfort.' },
+  { question: 'How quickly do you respond to emergency calls?', answer: 'We prioritize emergency calls and strive to respond as quickly as possible. Call us and we will arrange for a technician to reach you promptly.' },
+  { question: 'Is there an extra charge for emergency service?', answer: 'Emergency service calls may include a priority dispatch fee. We will confirm pricing when you call so there are no surprises.' },
+  { question: 'Do you offer emergency service on weekends?', answer: 'Yes, we provide emergency HVAC service on weekends and holidays. Call our main line for assistance.' },
+];
+---
+
+<BaseLayout title={`Emergency HVAC Service Chicago, IL | ${BUSINESS.name}`} description={`Emergency HVAC service in Chicago, IL. Fast response for heating failures, AC breakdowns, and urgent HVAC issues. Call ${BUSINESS.phone} for immediate assistance.`} canonical={canonical} breadcrumbs={breadcrumbs}>
+  <LocalBusinessSchema page="service" serviceName="Emergency HVAC Service" serviceDescription="Emergency heating and cooling service in Chicago, IL. Fast response for urgent HVAC issues." />
+  <Header currentPath="/emergency-hvac-service-chicago/" breadcrumbs={breadcrumbs} />
+
+  <main>
+    <Hero headline="Emergency HVAC Service in Chicago" subheadline="When your heating or cooling system fails unexpectedly, we respond fast. Emergency HVAC service you can count on." backgroundImage="/images/chicago-heating-air/thermostats-hvacbackground-0.jpg" variant="interior" />
+
+    <section class="section">
+      <div class="container">
+        <div class="emergency-content">
+          <div class="emergency-alert">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="1.5" aria-hidden="true">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+            <h2>Need Immediate HVAC Assistance?</h2>
+            <p>If your heating or AC system has stopped working and you need urgent help, call us right away. We prioritize emergency calls and work quickly to restore comfort and safety to your home.</p>
+            <a href={`tel:${BUSINESS.phoneRaw}`} class="btn btn-primary" style="padding:1rem 3rem;font-size:1.25rem;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              Call {BUSINESS.phone}
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="background:#f8fafc;">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Emergency Scenarios</span>
+          <h2>Emergency Situations We Handle</h2>
+          <p class="section-desc">We respond to urgent HVAC issues across Chicago. Here are the most common emergencies we handle.</p>
+        </div>
+        <div class="emergency-grid">
+          <div class="emergency-card"><h3>Heating Failure</h3><p>Complete furnace or boiler failure during cold weather. We prioritize heat restoration to protect your home and family.</p></div>
+          <div class="emergency-card"><h3>AC Breakdown</h3><p>Air conditioning system failure during extreme heat. We work quickly to restore cooling and comfort.</p></div>
+          <div class="emergency-card"><h3>Gas or Carbon Monoxide Concerns</h3><p>If you smell gas or suspect a carbon monoxide leak, leave your home immediately and call 911. Then call us for system inspection.</p></div>
+          <div class="emergency-card"><h3>Electrical Issues</h3><p>Faulty wiring, tripping breakers, or electrical problems with your HVAC system that pose a safety risk.</p></div>
+          <div class="emergency-card"><h3>Refrigerant Leaks</h3><p>Significant refrigerant loss that affects cooling performance and may pose health or environmental risks.</p></div>
+          <div class="emergency-card"><h3>Water Damage</h3><p>HVAC system leaks or flooding that requires immediate attention to prevent property damage.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <FAQ items={faqItems} title="Emergency HVAC Questions" subtitle="What you need to know about emergency HVAC service in Chicago." />
+    <ContactForm title="Emergency Service Request" subtitle="For emergencies, please call us directly. This form is for non-emergency service requests." />
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style is:global>
+  .emergency-content { max-width: 700px; margin: 0 auto; }
+  .emergency-alert { text-align: center; padding: 3rem 2rem; background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%); border: 2px solid #fed7aa; border-radius: 1rem; }
+  .emergency-alert h2 { margin: 1rem 0 0.75rem; }
+  .emergency-alert p { color: #64748b; font-size: 1.05rem; line-height: 1.7; margin-bottom: 1.5rem; }
+  .emergency-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; max-width: 900px; margin: 0 auto; }
+  @media (min-width: 640px) { .emergency-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 900px) { .emergency-grid { grid-template-columns: repeat(3, 1fr); } }
+  .emergency-card { padding: 1.75rem; background: #fff; border: 1px solid #e2e8f0; border-radius: 0.75rem; transition: border-color 0.2s, box-shadow 0.2s; }
+  .emergency-card:hover { border-color: #f97316; box-shadow: 0 4px 16px rgba(249, 115, 22, 0.08); }
+  .emergency-card h3 { font-size: 1.05rem; margin-bottom: 0.5rem; }
+  .emergency-card p { color: #64748b; font-size: 0.9rem; line-height: 1.6; }
+</style>

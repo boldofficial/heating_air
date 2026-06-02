@@ -1,0 +1,76 @@
+---
+import { BUSINESS } from '../config/business';
+
+interface Props {
+  items?: { icon: string; text: string }[];
+  variant?: 'light' | 'dark';
+}
+
+const defaultItems = [
+  { icon: 'star', text: `${BUSINESS.googleRating}-star Google Rating` },
+  { icon: 'shield', text: 'Licensed, Bonded & Insured' },
+  { icon: 'clock', text: 'Same-Day & Emergency Service' },
+  { icon: 'map', text: 'Serving Chicago' },
+];
+
+const { items = defaultItems, variant = 'light' } = Astro.props;
+
+const iconSvgs: Record<string, string> = {
+  star: '<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>',
+  shield: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+  clock: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+  map: '<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>',
+  users: '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+  check: '<polyline points="20 6 9 17 4 12"/>',
+};
+---
+
+<div class={`trust-bar trust-bar--${variant}`} aria-label="Trust signals">
+  <div class="container">
+    <ul class="trust-list">
+      {items.map((item) => (
+        <li class="trust-item" key={item.text}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={variant === 'dark' ? '#f97316' : '#f97316'} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={iconSvgs[item.icon] || iconSvgs.shield} />
+          <span>{item.text}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>
+
+<style is:global>
+  .trust-bar {
+    padding: 1.25rem 0;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .trust-bar--dark {
+    background: #0f172a;
+    border-bottom: none;
+    border-top: 1px solid #1e293b;
+  }
+
+  .trust-bar--dark .trust-item { color: #94a3b8; }
+
+  .trust-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem 2rem;
+  }
+
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #475569;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 480px) {
+    .trust-item { white-space: normal; text-align: center; }
+  }
+</style>

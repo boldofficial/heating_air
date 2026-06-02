@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Hero from '../components/Hero.astro';
+import TrustBar from '../components/TrustBar.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import ContactForm from '../components/ContactForm.astro';
+import LocalBusinessSchema from '../components/LocalBusinessSchema.astro';
+import { BUSINESS, SITE_CONFIG } from '../config/business';
+
+const canonical = `${SITE_CONFIG.url}/services/`;
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'HVAC Services', path: '/services/' },
+];
+
+const allServices = [
+  { title: 'AC Repair', description: 'Professional diagnosis and repair for all AC makes and models. Fast, reliable service for Chicago homes.', href: '/ac-repair-chicago/', icon: 'ac' },
+  { title: 'Furnace & Heating Repair', description: 'Expert furnace and heating repair to keep your home warm through Chicago winters.', href: '/furnace-repair-chicago/', icon: 'furnace' },
+  { title: 'Heat Pump Services', description: 'Heat pump installation, repair, and maintenance for year-round comfort and efficiency.', href: '/services/', icon: 'heatpump' },
+  { title: 'AC Installation & Replacement', description: 'Professional AC installation with energy-efficient systems matched to your home.', href: '/ac-installation-chicago/', icon: 'installation' },
+  { title: 'Emergency HVAC Service', description: 'Fast emergency heating and cooling service when you need it most.', href: '/emergency-hvac-service-chicago/', icon: 'emergency' },
+  { title: 'Air Duct Cleaning', description: 'Thorough air duct cleaning to improve airflow and indoor air quality.', href: '/services/', icon: 'duct' },
+  { title: 'Indoor Air Quality', description: 'Air filtration, purification, and IAQ solutions for healthier indoor environments.', href: '/indoor-air-quality-chicago/', icon: 'air' },
+  { title: 'Air Filtration Systems', description: 'Advanced air filtration and purification systems for cleaner, healthier indoor air.', href: '/indoor-air-quality-chicago/', icon: 'air' },
+  { title: 'Air Handler Services', description: 'Air handler repair, maintenance, and replacement for optimal system performance.', href: '/services/', icon: 'duct' },
+  { title: 'Refrigerant Recharge', description: 'AC refrigerant recharge services to restore cooling performance.', href: '/ac-repair-chicago/', icon: 'ac' },
+  { title: 'Thermostat Installation & Repair', description: 'Thermostat services including smart thermostat upgrades and programming.', href: '/services/', icon: 'thermostat' },
+  { title: 'Ventilation Solutions', description: 'Whole-home ventilation systems for fresh, healthy indoor air.', href: '/indoor-air-quality-chicago/', icon: 'air' },
+  { title: 'Zoning Systems', description: 'HVAC zoning solutions for customized comfort across different areas of your home.', href: '/services/', icon: 'thermostat' },
+  { title: 'Duct Installation & Repair', description: 'Ductwork installation, sealing, and repair for efficient airflow.', href: '/services/', icon: 'duct' },
+  { title: 'UV Air Sanitizers', description: 'UV light air sanitization to reduce airborne bacteria and improve IAQ.', href: '/indoor-air-quality-chicago/', icon: 'air' },
+  { title: 'Energy Efficiency Audits', description: 'HVAC energy audits to identify savings opportunities and optimize performance.', href: '/services/', icon: 'thermostat' },
+  { title: 'Commercial HVAC Services', description: 'Heating and cooling solutions for Chicago businesses and commercial properties.', href: '/services/', icon: 'installation' },
+  { title: 'Seasonal Inspections', description: 'Spring AC and fall heating inspections to keep your system running efficiently.', href: '/hvac-maintenance-chicago/', icon: 'furnace' },
+];
+---
+
+<BaseLayout title={`HVAC Services in Chicago, IL | ${BUSINESS.name}`} description={`Comprehensive HVAC services in Chicago: AC repair, furnace repair, installations, maintenance, indoor air quality, and emergency service. Call ${BUSINESS.phone}.`} canonical={canonical} breadcrumbs={breadcrumbs}>
+  <LocalBusinessSchema page="service" serviceName="HVAC Services" serviceDescription="Comprehensive heating, cooling, and indoor air quality services for Chicago homes and businesses." />
+  <Header currentPath="/services/" breadcrumbs={breadcrumbs} />
+
+  <main>
+    <Hero headline="Complete HVAC Services in Chicago" subheadline={`From AC repairs to furnace replacements and indoor air quality solutions, ${BUSINESS.name} delivers professional HVAC service you can trust.`} backgroundImage="/images/chicago-heating-air/headerhvacservice-0.jpg" variant="interior" />
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">All Services</span>
+          <h2>Every HVAC Service You Need</h2>
+          <p class="section-desc">Every service is backed by honest diagnostics, upfront pricing, and NATE-certified technicians who take pride in their work.</p>
+        </div>
+        <div class="services-all-grid">{allServices.map((s) => (<ServiceCard title={s.title} description={s.description} href={s.href} icon={s.icon} />))}</div>
+      </div>
+    </section>
+
+    <section class="section" style="background:#f8fafc;">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Not Sure?</span>
+          <h2>Not Sure What You Need?</h2>
+          <p class="section-desc">Call us and describe the issue. We'll help identify the right service and get a technician to your home quickly.</p>
+          <a href={`tel:${BUSINESS.phoneRaw}`} class="btn btn-primary" style="margin-top:1.5rem;padding:1rem 2.5rem;font-size:1.125rem;">Call {BUSINESS.phone}</a>
+        </div>
+      </div>
+    </section>
+
+    <ContactForm title="Request HVAC Service" subtitle="Tell us what you need and we'll get back to you promptly." />
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style is:global>
+  .services-all-grid { display: grid; grid-template-columns: 1fr; gap: 1.25rem; }
+  @media (min-width: 640px) { .services-all-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1024px) { .services-all-grid { grid-template-columns: repeat(3, 1fr); } }
+</style>

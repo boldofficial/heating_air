@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Hero from '../components/Hero.astro';
+import ContactForm from '../components/ContactForm.astro';
+import LocalBusinessSchema from '../components/LocalBusinessSchema.astro';
+import { BUSINESS, SITE_CONFIG } from '../config/business';
+
+const canonical = `${SITE_CONFIG.url}/contact/`;
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Contact', path: '/contact/' },
+];
+---
+
+<BaseLayout title={`Contact ${BUSINESS.name} | HVAC Service in Chicago, IL`} description={`Contact ${BUSINESS.name} for HVAC service in Chicago, IL. Call ${BUSINESS.phone}, fill out our service request form, or visit our location. Fast, reliable AC and heating service.`} canonical={canonical} breadcrumbs={breadcrumbs}>
+  <LocalBusinessSchema page="contact" />
+  <Header currentPath="/contact/" breadcrumbs={breadcrumbs} />
+
+  <main>
+    <Hero headline={`Contact ${BUSINESS.name}`} subheadline="Ready to get started? Call us, send a message, or stop by our location. We're here to help with all your HVAC needs in Chicago." backgroundImage="/images/chicago-heating-air/headerhvacservice-0.jpg" variant="interior" />
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Get in Touch</span>
+          <h2>How to Reach Us</h2>
+          <p class="section-desc">We're available during business hours and offer emergency service for urgent HVAC issues.</p>
+        </div>
+        <div class="contact-cards">
+          <div class="contact-card">
+            <div class="contact-card-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <h3>Call Us</h3>
+            <a href={`tel:${BUSINESS.phoneRaw}`} class="contact-link">{BUSINESS.phone}</a>
+            <p class="contact-desc">Available Mon–Fri: {BUSINESS.hours.weekday}<br />Saturday: {BUSINESS.hours.saturday}<br />Emergency service available</p>
+          </div>
+          <div class="contact-card">
+            <div class="contact-card-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <h3>Visit Us</h3>
+            <address class="contact-link" style="font-style:normal;">{BUSINESS.address.street}<br />{BUSINESS.address.city}, {BUSINESS.address.state} {BUSINESS.address.zip}</address>
+            <a href={BUSINESS.googleMapsUrl} target="_blank" rel="noopener noreferrer" class="contact-maps-link">Get Directions</a>
+          </div>
+          <div class="contact-card">
+            <div class="contact-card-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            </div>
+            <h3>Email Us</h3>
+            <a href={`mailto:${BUSINESS.email}`} class="contact-link">{BUSINESS.email}</a>
+            <p class="contact-desc">We'll respond during business hours. For urgent issues, please call.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <ContactForm title="Request Service Online" subtitle="Fill out the form below and we'll contact you promptly to schedule your service." variant="page" />
+
+    <section class="section map-section" aria-label="Location">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Our Location</span>
+          <h2>Find Us</h2>
+        </div>
+        <div class="map-full">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2972.5!2d-87.5823921!3d41.7666751!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880e2955ea9f79c7%3A0x3ee2003951d133f0!2sChicago+Heating+%26+Air!5e0!3m2!1sen!2sus!4v1" width="100%" height="400" style="border:0;border-radius:1rem;" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title={`Map showing ${BUSINESS.name} location in Chicago, IL`}></iframe>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style is:global>
+  .contact-cards { display: grid; grid-template-columns: 1fr; gap: 1.5rem; max-width: 1000px; margin: 0 auto; }
+  @media (min-width: 640px) { .contact-cards { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 900px) { .contact-cards { grid-template-columns: repeat(3, 1fr); } }
+  .contact-card { text-align: center; padding: 2.5rem 1.5rem; background: #fff; border: 1px solid #e2e8f0; border-radius: 1rem; transition: box-shadow 0.2s, border-color 0.2s; }
+  .contact-card:hover { border-color: #f97316; box-shadow: 0 8px 25px rgba(249, 115, 22, 0.08); }
+  .contact-card-icon { display: flex; align-items: center; justify-content: center; width: 56px; height: 56px; background: #fff7ed; border-radius: 50%; margin: 0 auto 1rem; }
+  .contact-card h3 { font-size: 1.125rem; margin-bottom: 0.5rem; }
+  .contact-link { display: block; font-size: 1.05rem; font-weight: 700; color: #f97316; margin-bottom: 0.75rem; }
+  .contact-link:hover { text-decoration: underline; }
+  .contact-desc { color: #64748b; font-size: 0.875rem; line-height: 1.6; }
+  .contact-maps-link { display: inline-block; font-size: 0.9rem; font-weight: 600; color: #f97316; margin-top: 0.5rem; }
+  .contact-maps-link:hover { text-decoration: underline; }
+  .map-full { max-width: 900px; margin: 0 auto; border-radius: 1rem; overflow: hidden; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); }
+</style>

@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { BUSINESS, SITE_CONFIG } from '../config/business';
+
+const canonical = `${SITE_CONFIG.url}/privacy-policy/`;
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Privacy Policy', path: '/privacy-policy/' },
+];
+---
+
+<BaseLayout title={`Privacy Policy | ${BUSINESS.name}`} description={`Privacy policy for ${BUSINESS.name}. Learn how we collect, use, and protect your personal information when you request HVAC services.`} canonical={canonical} breadcrumbs={breadcrumbs}>
+  <Header currentPath="/privacy-policy/" />
+
+  <main>
+    <section class="section" style="padding-top: 2rem;">
+      <div class="container" style="max-width: 800px; margin: 0 auto;">
+        <h1>Privacy Policy</h1>
+        <p style="color:#64748b;margin-bottom:2rem;">Last updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+
+        <div class="legal-content">
+          <p>{BUSINESS.name} ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or use our services.</p>
+
+          <h2>Information We Collect</h2>
+          <p><strong>Personal Information:</strong> When you fill out a contact or service request form, we collect your name, phone number, email address, and service-related information.</p>
+          <p><strong>Usage Data:</strong> We may collect non-personal information about how you interact with our website, including pages visited, time spent, and referring URLs.</p>
+
+          <h2>How We Use Your Information</h2>
+          <ul><li>Respond to your service requests and inquiries</li><li>Schedule and provide HVAC services</li><li>Communicate with you about your service needs</li><li>Improve our website and customer service</li><li>Comply with legal obligations</li></ul>
+
+          <h2>Information Sharing</h2>
+          <p>We do not sell, trade, or rent your personal information to third parties. We may share your information with trusted service providers who assist us in operating our business, provided they agree to keep your information confidential.</p>
+
+          <h2>Data Security</h2>
+          <p>We implement appropriate security measures to protect your personal information. However, no method of transmission over the Internet is 100% secure, and we cannot guarantee absolute security.</p>
+
+          <h2>Cookies</h2>
+          <p>Our website may use cookies and similar tracking technologies to enhance your browsing experience. You can control cookie preferences through your browser settings.</p>
+
+          <h2>Third-Party Links</h2>
+          <p>Our website may contain links to third-party websites. We are not responsible for the privacy practices or content of these external sites.</p>
+
+          <h2>Your Rights</h2>
+          <ul><li>Request access to the personal information we hold about you</li><li>Request correction or deletion of your personal information</li><li>Opt out of marketing communications at any time</li><li>File a complaint with relevant data protection authorities</li></ul>
+
+          <h2>Contact Us</h2>
+          <address style="font-style:normal;color:#475569;line-height:1.7;">
+            <strong>{BUSINESS.name}</strong><br />{BUSINESS.address.street}<br />{BUSINESS.address.city}, {BUSINESS.address.state} {BUSINESS.address.zip}<br />
+            Phone: <a href={`tel:${BUSINESS.phoneRaw}`} style="color:#f97316;">{BUSINESS.phone}</a><br />
+            Email: <a href={`mailto:${BUSINESS.email}`} style="color:#f97316;">{BUSINESS.email}</a>
+          </address>
+
+          <h2>Changes to This Policy</h2>
+          <p>We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated effective date.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style is:global>
+  .legal-content h2 { font-size: 1.375rem; margin: 2rem 0 0.75rem; }
+  .legal-content p { color: #475569; line-height: 1.7; margin-bottom: 1rem; }
+  .legal-content ul { padding-left: 1.5rem; margin-bottom: 1rem; }
+  .legal-content li { color: #475569; line-height: 1.7; margin-bottom: 0.25rem; }
+</style>

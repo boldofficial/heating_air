@@ -1,0 +1,344 @@
+---
+import { BUSINESS } from '../config/business';
+
+interface Props {
+  currentPath?: string;
+  breadcrumbs?: { name: string; path: string }[];
+}
+
+const { currentPath = '/', breadcrumbs } = Astro.props;
+
+const navLinks = [
+  { href: '/', label: 'Home' },
+  { href: '/services/', label: 'Services' },
+  { href: '/ac-repair-chicago/', label: 'AC Repair' },
+  { href: '/furnace-repair-chicago/', label: 'Furnace Repair' },
+  { href: '/contact/', label: 'Contact' },
+];
+
+// Skip breadcrumbs on homepage
+const showBreadcrumbs = breadcrumbs && breadcrumbs.length > 0 && currentPath !== '/';
+---
+
+<header class="site-header" role="banner">
+  <div class="header-inner container">
+    <a href="/" class="logo" aria-label={`${BUSINESS.name} - Home`}>
+      <span class="logo-icon" aria-hidden="true">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="32" height="32" rx="6" fill="#f97316"/>
+          <path d="M16 6C14.5 6 12 8 12 12C12 14 13 15.5 14 16.5V20C14 20.6 14.4 21 15 21H17C17.6 21 18 20.6 18 20V16.5C19 15.5 20 14 20 12C20 8 17.5 6 16 6Z" fill="white"/>
+          <rect x="14" y="22" width="4" height="2" rx="0.5" fill="white" opacity="0.8"/>
+          <rect x="15" y="25" width="2" height="2" rx="0.5" fill="white" opacity="0.8"/>
+        </svg>
+      </span>
+      <span class="logo-text">
+        <span class="logo-name">Chicago Heating & Air</span>
+        <span class="logo-tagline">Heating & Cooling</span>
+      </span>
+    </a>
+
+    <nav class="nav-desktop" aria-label="Main navigation">
+      <ul class="nav-list">
+        {navLinks.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class={`nav-link${currentPath === link.href ? ' nav-link--active' : ''}`}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <a href={`tel:${BUSINESS.phoneRaw}`} class="header-phone btn btn-primary">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+      </svg>
+      {BUSINESS.phone}
+    </a>
+
+    <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" id="navToggle">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+  </div>
+
+  <nav class="nav-mobile" id="navMobile" aria-label="Mobile navigation" hidden>
+    <ul class="nav-mobile-list">
+      {navLinks.map((link) => (
+        <li>
+          <a
+            href={link.href}
+            class={`nav-mobile-link${currentPath === link.href ? ' nav-link--active' : ''}`}
+            data-mobile-nav
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+    <div class="nav-mobile-cta">
+      <a href={`tel:${BUSINESS.phoneRaw}`} class="btn btn-primary" style="width:100%;justify-content:center;">
+        Call {BUSINESS.phone}
+      </a>
+      <a href="/contact/" class="btn btn-outline" style="width:100%;justify-content:center;margin-top:0.5rem;">
+        Request Service
+      </a>
+    </div>
+  </nav>
+</header>
+
+<!-- Breadcrumb Bar (interior pages only) -->
+{breadcrumbs && currentPath !== '/' && (
+  <nav class="breadcrumb-bar" aria-label="Breadcrumb">
+    <div class="container">
+      <ol class="breadcrumb-list">
+        {breadcrumbs.map((crumb, i) => (
+          <li class="breadcrumb-item">
+            {i < breadcrumbs.length - 1 ? (
+              <a href={crumb.path}>{crumb.name}</a>
+            ) : (
+              <span aria-current="page">{crumb.name}</span>
+            )}
+            {i < breadcrumbs.length - 1 && (
+              <svg class="breadcrumb-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <polyline points="9 18 15 12 9 6"/>
+              </svg>
+            )}
+          </li>
+        ))}
+      </ol>
+    </div>
+  </nav>
+)}
+
+<script>
+  const toggle = document.getElementById('navToggle');
+  const menu = document.getElementById('navMobile');
+  const mobileLinks = document.querySelectorAll('[data-mobile-nav]');
+
+  if (toggle && menu) {
+    toggle.addEventListener('click', () => {
+      const isOpen = menu.hidden;
+      menu.hidden = !isOpen;
+      toggle.setAttribute('aria-expanded', String(isOpen));
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+
+    mobileLinks.forEach((link) => {
+      link.addEventListener('click', () => {
+        menu.hidden = true;
+        toggle.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      });
+    });
+  }
+</script>
+
+<style is:global>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    height: 72px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    flex-shrink: 0;
+  }
+
+  .logo-text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .logo-name {
+    font-weight: 700;
+    font-size: 1.125rem;
+    color: #1a1a2e;
+    line-height: 1.2;
+  }
+
+  .logo-tagline {
+    font-size: 0.75rem;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .nav-desktop { display: none; }
+
+  @media (min-width: 1024px) {
+    .nav-desktop { display: flex; }
+  }
+
+  .nav-list {
+    display: flex;
+    list-style: none;
+    gap: 0.25rem;
+  }
+
+  .nav-link {
+    padding: 0.5rem 0.875rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: #475569;
+    border-radius: 0.375rem;
+    transition: color 0.2s, background 0.2s;
+  }
+
+  .nav-link:hover {
+    color: #f97316;
+    background: #fff7ed;
+  }
+
+  .nav-link--active {
+    color: #f97316;
+    font-weight: 600;
+  }
+
+  .header-phone { display: none; }
+
+  @media (min-width: 768px) {
+    .header-phone { display: inline-flex; }
+  }
+
+  .nav-toggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+    background: none;
+    border: none;
+    border-radius: 0.375rem;
+  }
+
+  @media (min-width: 1024px) {
+    .nav-toggle { display: none; }
+  }
+
+  .hamburger-line {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: #1a1a2e;
+    border-radius: 1px;
+    transition: transform 0.2s;
+  }
+
+  .nav-toggle[aria-expanded="true"] .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+
+  .nav-toggle[aria-expanded="true"] .hamburger-line:nth-child(2) { opacity: 0; }
+
+  .nav-toggle[aria-expanded="true"] .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+  }
+
+  .nav-mobile {
+    position: fixed;
+    top: 72px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 1.5rem;
+    z-index: 99;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .nav-mobile-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .nav-mobile-link {
+    display: block;
+    padding: 0.875rem 1rem;
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: #1a1a2e;
+    border-radius: 0.5rem;
+    transition: background 0.2s;
+  }
+
+  .nav-mobile-link:hover { background: #f8fafc; }
+
+  .nav-mobile-cta {
+    margin-top: auto;
+    padding-top: 1.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    .nav-mobile { display: none !important; }
+  }
+
+  /* Breadcrumb Bar */
+  .breadcrumb-bar {
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 0.625rem 0;
+  }
+
+  .breadcrumb-list {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    flex-wrap: wrap;
+  }
+
+  .breadcrumb-item {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.8125rem;
+    color: #64748b;
+  }
+
+  .breadcrumb-item a {
+    color: #64748b;
+    transition: color 0.2s;
+    padding: 0.125rem 0;
+  }
+
+  .breadcrumb-item a:hover {
+    color: #f97316;
+  }
+
+  .breadcrumb-item [aria-current="page"] {
+    color: #1a1a2e;
+    font-weight: 600;
+  }
+
+  .breadcrumb-chevron {
+    color: #94a3b8;
+    flex-shrink: 0;
+  }
+</style>

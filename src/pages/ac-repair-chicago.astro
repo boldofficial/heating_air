@@ -1,0 +1,98 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Hero from '../components/Hero.astro';
+import ContactForm from '../components/ContactForm.astro';
+import FAQ from '../components/FAQ.astro';
+import LocalBusinessSchema from '../components/LocalBusinessSchema.astro';
+import { BUSINESS, SITE_CONFIG } from '../config/business';
+
+const canonical = `${SITE_CONFIG.url}/ac-repair-chicago/`;
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'AC Repair', path: '/ac-repair-chicago/' },
+];
+
+const faqItems = [
+  { question: 'How do I know if my AC needs repair or replacement?', answer: 'Our technicians perform a thorough diagnostic to assess the issue. We typically recommend repair for minor issues like refrigerant leaks, capacitor failures, or faulty components. If your system is over 12-15 years old, requires frequent repairs, or has a failing compressor, replacement may be more cost-effective.' },
+  { question: 'How long does an AC repair take in Chicago?', answer: 'Most standard AC repairs are completed in 1-3 hours. Complex issues may take longer. We provide estimated timelines after our initial diagnosis.' },
+  { question: 'Do you repair all AC brands?', answer: 'Yes, our NATE-certified technicians are trained to service all major AC brands including Carrier, Trane, Lennox, Rheem, Goodman, Bryant, and more.' },
+  { question: 'What causes AC units to stop cooling?', answer: 'Common causes include refrigerant leaks, dirty condenser coils, faulty compressors, capacitor failure, thermostat issues, or blocked airflow. We diagnose the exact cause and recommend the right fix.' },
+];
+---
+
+<BaseLayout title={`AC Repair in Chicago, IL | Air Conditioning Repair | ${BUSINESS.name}`} description={`Fast, reliable AC repair service in Chicago, IL. Expert air conditioning diagnostics, refrigerant recharge, and system repairs. Call ${BUSINESS.phone} for same-day service.`} canonical={canonical} breadcrumbs={breadcrumbs}>
+  <LocalBusinessSchema page="service" serviceName="AC Repair" serviceDescription="Professional air conditioning repair service in Chicago, IL. Expert diagnostics, refrigerant recharge, and AC system repairs." />
+  <Header currentPath="/ac-repair-chicago/" breadcrumbs={breadcrumbs} />
+
+  <main>
+    <Hero headline="AC Repair in Chicago" subheadline="Fast, professional air conditioning repair when your cooling system fails. Our NATE-certified technicians diagnose the issue quickly and restore your comfort." backgroundImage="/images/chicago-heating-air/HeaderHVACInstallation-AC-Repair-0.jpg" variant="interior" />
+
+    <section class="section">
+      <div class="container">
+        <div class="content-grid">
+          <div>
+            <span class="section-tag">Service Detail</span>
+            <h2>Professional AC Repair Service in Chicago</h2>
+            <p>When your air conditioning stops working on a hot Chicago day, you need fast, reliable help. At {BUSINESS.name}, our licensed technicians provide expert AC repair for homes and businesses across the city.</p>
+            <p>We diagnose the root cause of your cooling problem — not just the symptoms — and provide clear, upfront pricing before any work begins. Whether it's a simple capacitor replacement or a complex compressor issue, we have the expertise to get your system running again.</p>
+            <h3 style="margin-top:2rem;font-size:1.25rem;">Common AC Issues We Repair</h3>
+            <ul class="check-list">
+              <li>AC not blowing cold air</li>
+              <li>Refrigerant leaks and recharge</li>
+              <li>Frozen evaporator coils</li>
+              <li>Compressor failure</li>
+              <li>Capacitor and fan motor issues</li>
+              <li>Thermostat malfunctions</li>
+              <li>Drain line clogs</li>
+              <li>Electrical control failures</li>
+              <li>Strange noises or odors</li>
+              <li>Unit short cycling</li>
+            </ul>
+          </div>
+          <div class="content-sidebar">
+            <div class="sidebar-cta">
+              <h3>Same-Day AC Service Available</h3>
+              <p>Call now for prompt AC repair service in Chicago.</p>
+              <a href={`tel:${BUSINESS.phoneRaw}`} class="btn btn-primary" style="width:100%;justify-content:center;padding:1rem;">{BUSINESS.phone}</a>
+              <a href="/contact/" class="btn btn-outline" style="width:100%;justify-content:center;margin-top:0.75rem;">Request Service</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="background:#f8fafc;">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Our Process</span>
+          <h2>How We Repair Your AC</h2>
+          <p class="section-desc">A straightforward process designed to get you back to comfort quickly.</p>
+        </div>
+        <div class="process-steps-alt">
+          <div class="process-card">
+            <span class="process-card-number" aria-hidden="true">01</span>
+            <h3>Diagnosis</h3>
+            <p>We thoroughly inspect your system to identify the root cause of the problem using advanced diagnostic equipment.</p>
+          </div>
+          <div class="process-card">
+            <span class="process-card-number" aria-hidden="true">02</span>
+            <h3>Upfront Estimate</h3>
+            <p>We explain the issue clearly and provide a firm price before any work starts — no surprises, ever.</p>
+          </div>
+          <div class="process-card">
+            <span class="process-card-number" aria-hidden="true">03</span>
+            <h3>Professional Repair</h3>
+            <p>Our technician completes the repair efficiently, tests your system thoroughly, and ensures everything is working perfectly.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <FAQ items={faqItems} title="AC Repair Questions" subtitle="Common questions about air conditioning repair in Chicago." />
+    <ContactForm title="Schedule AC Repair" subtitle="Fill out the form and we'll contact you to schedule your AC repair service." />
+  </main>
+
+  <Footer />
+</BaseLayout>

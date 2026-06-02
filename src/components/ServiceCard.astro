@@ -1,0 +1,105 @@
+---
+import { BUSINESS } from '../config/business';
+
+interface Props {
+  title: string;
+  description: string;
+  href: string;
+  icon?: string;
+}
+
+const { title, description, href, icon } = Astro.props;
+
+const iconPaths: Record<string, string> = {
+  'ac': 'M12 6V4m0 2a2 2 0 1 0 0 4m0-4a2 2 0 1 1 0 4m-6 8a2 2 0 1 0 0-4m0 4a2 2 0 1 1 0-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 1 0 0-4m0 4a2 2 0 1 1 0-4m0 4v2m0-6V4',
+  'furnace': 'M12 2v8m0 0-3-3m3 3 3-3M4 14h16M6 14v6m4-6v6m4-6v6m4-6v6',
+  'installation': 'M10 2L7 6h14l-3-4M7 2L4 6h14l-3-4M4 6v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6',
+  'emergency': 'M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z',
+  'duct': 'M21 12a9 9 0 1 1-9-9m9 9-6-6m6 6-6 6m6-6H3',
+  'air': 'M3 15a4 4 0 0 0 4 4h9a5 5 0 1 0-.1-9.999 5.002 5.002 0 0 0-9.78 2.096A4.001 4.001 0 0 0 3 15z',
+  'thermostat': 'M12 8V4m0 4a4 4 0 1 0 0 8m0-8a4 4 0 1 1 0 8m-6-4h12',
+  'heatpump': 'M12 2l3.09 3.09L12 8.18 8.91 5.09 12 2zM2 12l3.09-3.09L8.18 12 5.09 15.09 2 12zM22 12l-3.09-3.09L15.82 12l3.09 3.09L22 12zM12 22l-3.09-3.09L12 15.82l3.09 3.09L12 22z',
+};
+
+const defaultIcon = 'M20 7l-8-4-8 4m16 0-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4';
+---
+
+<a href={href} class="service-card" aria-label={`${title} - Learn more`}>
+  <div class="service-card-icon" aria-hidden="true">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d={iconPaths[icon || ''] || defaultIcon} />
+    </svg>
+  </div>
+  <h3 class="service-card-title">{title}</h3>
+  <p class="service-card-desc">{description}</p>
+  <span class="service-card-cta">
+    Learn More
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M5 12h14M12 5l7 7-7 7"/>
+    </svg>
+  </span>
+</a>
+
+<style is:global>
+  .service-card {
+    display: flex;
+    flex-direction: column;
+    padding: 1.75rem;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+  }
+
+  .service-card:hover {
+    border-color: #f97316;
+    box-shadow: 0 8px 30px rgba(249, 115, 22, 0.1);
+    transform: translateY(-3px);
+  }
+
+  .service-card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    background: #fff7ed;
+    color: #f97316;
+    border-radius: 0.75rem;
+    margin-bottom: 1.25rem;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .service-card:hover .service-card-icon {
+    background: #f97316;
+    color: #fff;
+  }
+
+  .service-card-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 0.5rem;
+  }
+
+  .service-card-desc {
+    font-size: 0.875rem;
+    color: #64748b;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    flex: 1;
+  }
+
+  .service-card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #f97316;
+    transition: gap 0.2s;
+  }
+
+  .service-card:hover .service-card-cta { gap: 0.625rem; }
+</style>

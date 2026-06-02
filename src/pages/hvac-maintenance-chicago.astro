@@ -1,0 +1,106 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Hero from '../components/Hero.astro';
+import ContactForm from '../components/ContactForm.astro';
+import FAQ from '../components/FAQ.astro';
+import LocalBusinessSchema from '../components/LocalBusinessSchema.astro';
+import { BUSINESS, SITE_CONFIG } from '../config/business';
+
+const canonical = `${SITE_CONFIG.url}/hvac-maintenance-chicago/`;
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'HVAC Maintenance', path: '/hvac-maintenance-chicago/' },
+];
+
+const faqItems = [
+  { question: 'How often should I have my HVAC system serviced?', answer: 'We recommend professional maintenance twice a year — a spring AC tune-up before cooling season and a fall heating tune-up before winter. Regular maintenance helps prevent breakdowns and extends equipment life.' },
+  { question: 'What does an HVAC tune-up include?', answer: 'A standard tune-up includes: inspection of all components, cleaning of coils and burners, refrigerant level check, airflow measurement, thermostat calibration, electrical connection check, lubrication of moving parts, and safety testing.' },
+  { question: 'Can regular maintenance save me money?', answer: 'Yes, regular maintenance can reduce energy bills by up to 15-20%, prevent costly emergency repairs, extend the life of your equipment by years, and help maintain your manufacturer warranty.' },
+  { question: 'Do you offer maintenance plans?', answer: 'Yes, we offer seasonal maintenance programs. Contact us for details on pricing and what\'s included in our maintenance plans for Chicago homeowners.' },
+];
+---
+
+<BaseLayout title={`HVAC Maintenance in Chicago, IL | Tune-Ups & Inspection | ${BUSINESS.name}`} description={`Keep your HVAC system running efficiently with professional maintenance and tune-ups in Chicago, IL. Spring AC and fall heating inspections. Call ${BUSINESS.phone}.`} canonical={canonical} breadcrumbs={breadcrumbs}>
+  <LocalBusinessSchema page="service" serviceName="HVAC Maintenance & Tune-Ups" serviceDescription="Professional HVAC maintenance, tune-ups, and seasonal inspections in Chicago, IL." />
+  <Header currentPath="/hvac-maintenance-chicago/" breadcrumbs={breadcrumbs} />
+
+  <main>
+    <Hero headline="HVAC Maintenance &amp; Tune-Ups in Chicago" subheadline="Protect your investment and prevent unexpected breakdowns with regular HVAC maintenance. Spring and fall tune-ups for year-round comfort." backgroundImage="/images/chicago-heating-air/thermostats-hvacbackground-0.jpg" variant="interior" />
+
+    <section class="section">
+      <div class="container">
+        <div class="content-grid">
+          <div>
+            <span class="section-tag">Service Detail</span>
+            <h2>Professional HVAC Maintenance Service</h2>
+            <p>Regular HVAC maintenance is the best way to protect your heating and cooling investment. At {BUSINESS.name}, we provide thorough seasonal tune-ups that keep your system running efficiently, reduce the risk of breakdowns, and extend the life of your equipment.</p>
+            <p>Our NATE-certified technicians inspect, clean, and test every component of your system during each visit. We catch small issues before they become expensive repairs — saving you money and stress.</p>
+            <h3 style="margin-top:2rem;font-size:1.25rem;">What We Check During a Tune-Up</h3>
+            <ul class="check-list">
+              <li>Thermostat calibration and operation</li>
+              <li>Electrical connections and components</li>
+              <li>Coil cleaning and inspection</li>
+              <li>Refrigerant level check</li>
+              <li>Airflow measurement and duct inspection</li>
+              <li>Blower motor and fan check</li>
+              <li>Drain line clearing</li>
+              <li>Safety controls testing</li>
+              <li>Filter replacement recommendation</li>
+              <li>System efficiency evaluation</li>
+            </ul>
+          </div>
+          <div class="content-sidebar">
+            <div class="sidebar-cta">
+              <h3>Schedule Your Tune-Up</h3>
+              <p>Spring and fall fill up fast. Book your seasonal maintenance today.</p>
+              <a href={`tel:${BUSINESS.phoneRaw}`} class="btn btn-primary" style="width:100%;justify-content:center;padding:1rem;">{BUSINESS.phone}</a>
+              <a href="/contact/" class="btn btn-outline" style="width:100%;justify-content:center;margin-top:0.75rem;">Schedule Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="background:#f8fafc;">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Benefits</span>
+          <h2>Benefits of Regular HVAC Maintenance</h2>
+          <p class="section-desc">A small investment in maintenance protects a much larger investment in your home comfort system.</p>
+        </div>
+        <div class="benefits-grid">
+          <div class="benefit-card"><span class="benefit-icon" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72 1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/><circle cx="12" cy="12" r="5"/></svg></span><h3>Better Efficiency</h3><p>Well-maintained systems use less energy, lowering your monthly utility bills by up to 20%.</p></div>
+          <div class="benefit-card"><span class="benefit-icon" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span><h3>Fewer Breakdowns</h3><p>Regular inspections catch small issues before they turn into costly emergency repairs.</p></div>
+          <div class="benefit-card"><span class="benefit-icon" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span><h3>Extended Equipment Life</h3><p>Proper care can add years to your HVAC system, maximizing your investment.</p></div>
+          <div class="benefit-card"><span class="benefit-icon" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span><h3>Warranty Protection</h3><p>Many manufacturer warranties require regular professional maintenance to stay valid.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="background:linear-gradient(135deg, #0f172a, #1e293b);color:#fff;text-align:center;">
+      <div class="container">
+        <span class="section-tag section-tag--white">Get Started</span>
+        <h2 style="color:#fff;">The Best Time for Maintenance Is Before You Need It</h2>
+        <p style="color:#94a3b8;font-size:1.05rem;max-width:600px;margin:0.75rem auto 2rem;line-height:1.7;">Don't wait for a breakdown. Schedule your seasonal tune-up today and enjoy peace of mind all year long.</p>
+        <a href={`tel:${BUSINESS.phoneRaw}`} class="btn btn-primary" style="padding:1rem 2.5rem;font-size:1.125rem;">Call {BUSINESS.phone} to Schedule</a>
+      </div>
+    </section>
+
+    <FAQ items={faqItems} title="Maintenance Questions" subtitle="Common questions about HVAC maintenance and tune-ups." />
+    <ContactForm title="Schedule a Tune-Up" subtitle="Fill out the form and we'll contact you to schedule your seasonal maintenance." />
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style is:global>
+  .benefits-grid { display: grid; grid-template-columns: 1fr; gap: 1.25rem; max-width: 800px; margin: 0 auto; }
+  @media (min-width: 640px) { .benefits-grid { grid-template-columns: repeat(2, 1fr); } }
+  .benefit-card { text-align: center; padding: 2rem 1.5rem; background: #fff; border: 1px solid #e2e8f0; border-radius: 0.75rem; transition: box-shadow 0.2s; }
+  .benefit-card:hover { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06); }
+  .benefit-icon { display: flex; align-items: center; justify-content: center; width: 56px; height: 56px; background: #fff7ed; border-radius: 0.75rem; margin: 0 auto 1rem; }
+  .benefit-card h3 { font-size: 1.05rem; margin-bottom: 0.5rem; }
+  .benefit-card p { color: #64748b; font-size: 0.875rem; line-height: 1.6; }
+</style>

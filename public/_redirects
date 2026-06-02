@@ -1,0 +1,18 @@
+# Redirect common variations
+/services/ac-repair/          /ac-repair-chicago/          301
+/services/furnace-repair/     /furnace-repair-chicago/     301
+/services/ac-installation/    /ac-installation-chicago/    301
+/services/emergency-hvac/     /emergency-hvac-service-chicago/ 301
+/services/indoor-air-quality/ /indoor-air-quality-chicago/ 301
+/services/maintenance/        /hvac-maintenance-chicago/   301
+/service-area/                /service-area/chicago/       301
+
+# Common misspellings and variations
+/ac-repair/                   /ac-repair-chicago/          301
+/furnace-repair/              /furnace-repair-chicago/     301
+/ac-installation/             /ac-installation-chicago/    301
+/emergency-hvac/              /emergency-hvac-service-chicago/ 301
+/indoor-air-quality/          /indoor-air-quality-chicago/ 301
+/hvac-maintenance/            /hvac-maintenance-chicago/   301
+/request-service/             /contact/                    301
+/get-a-quote/                 /contact/                    301

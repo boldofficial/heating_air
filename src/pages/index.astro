@@ -1,17 +1,332 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Hero from '../components/Hero.astro';
+import TrustBar from '../components/TrustBar.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import ReviewSummary from '../components/ReviewSummary.astro';
+import FAQ from '../components/FAQ.astro';
+import ContactForm from '../components/ContactForm.astro';
+import LocalBusinessSchema from '../components/LocalBusinessSchema.astro';
+import { BUSINESS, SITE_CONFIG } from '../config/business';
 
+const canonical = `${SITE_CONFIG.url}/`;
+const breadcrumbs = [{ name: 'Home', path: '/' }];
+
+const services = [
+  { title: 'AC Repair', description: 'Fast, reliable air conditioning repair for all makes and models. Restore your home\'s comfort quickly.', href: '/ac-repair-chicago/', icon: 'ac' },
+  { title: 'Furnace Repair', description: 'Expert heating repair to keep your home warm through Chicago\'s cold winters. Same-day service available.', href: '/furnace-repair-chicago/', icon: 'furnace' },
+  { title: 'AC Installation', description: 'Professional AC installation and system replacement with energy-efficient units matched to your home.', href: '/ac-installation-chicago/', icon: 'installation' },
+  { title: 'Emergency HVAC', description: 'Emergency heating and cooling service when you need it most. We respond fast to restore your comfort.', href: '/emergency-hvac-service-chicago/', icon: 'emergency' },
+  { title: 'Air Duct Cleaning', description: 'Thorough duct cleaning to improve airflow, reduce allergens, and boost your HVAC system efficiency.', href: '/services/', icon: 'duct' },
+  { title: 'Indoor Air Quality', description: 'Air filtration, purification, and ventilation solutions for healthier indoor air in your Chicago home.', href: '/indoor-air-quality-chicago/', icon: 'air' },
+  { title: 'Thermostat Services', description: 'Thermostat installation, repair, and smart thermostat upgrades for better comfort and energy savings.', href: '/services/', icon: 'thermostat' },
+  { title: 'Heat Pump Services', description: 'Heat pump installation, repair, and maintenance for efficient year-round heating and cooling.', href: '/services/', icon: 'heatpump' },
+];
+
+const faqItems = [
+  { question: 'Do you offer same-day HVAC service in Chicago?', answer: 'Yes, we offer same-day service whenever possible. Call us at ' + BUSINESS.phone + ' to check availability and we\'ll do our best to get a technician to your home as quickly as possible.' },
+  { question: 'What areas of Chicago do you serve?', answer: 'We serve the greater Chicago area including Hyde Park, South Shore, Woodlawn, Chatham, Beverly, Mount Greenwood, and many other neighborhoods throughout the city. Contact us to confirm service availability for your location.' },
+  { question: 'Is your HVAC company licensed and insured?', answer: 'Yes, ' + BUSINESS.name + ' is licensed, bonded, and insured. Our technicians are NATE certified and undergo ongoing training to stay current with the latest HVAC technology and repair techniques.' },
+  { question: 'How much does AC repair cost in Chicago?', answer: 'Costs vary depending on the issue, parts needed, and time of year. We provide clear, upfront pricing before any work begins and offer honest diagnostic assessments to help you make an informed decision.' },
+  { question: 'Do you provide emergency HVAC service?', answer: 'Yes, we offer emergency HVAC service for urgent heating and cooling issues. If your system is not working and you need immediate help, call our main line and we will prioritize your call.' },
+  { question: 'How often should I have my HVAC system maintained?', answer: 'We recommend professional HVAC maintenance twice a year — once in the spring for your AC system and once in the fall for your heating system. Regular maintenance extends equipment life and improves efficiency.' },
+  { question: 'What brand of HVAC equipment do you install?', answer: 'We install and service a wide range of major HVAC brands. During your consultation, we\'ll recommend the best equipment options based on your home size, efficiency goals, and budget.' },
+];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title={SITE_CONFIG.title} description={SITE_CONFIG.description} canonical={canonical} breadcrumbs={breadcrumbs}>
+  <LocalBusinessSchema page="home" />
+  <Header currentPath="/" />
+
+  <main>
+    <!-- 2-Column Split Hero with Booking Form -->
+    <Hero
+      headline="Chicago Heating &amp; Air Conditioning Service When Comfort Can&rsquo;t Wait"
+      subheadline="AC repair, heating repair, installations, maintenance, and indoor air quality solutions for homes and businesses across Chicago."
+      showRating={true}
+      showBookingForm={true}
+    />
+
+    <TrustBar />
+
+    <!-- Services Grid -->
+    <section class="section services-section" aria-label="Our HVAC services">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Our Services</span>
+          <h2>Expert HVAC Services in Chicago</h2>
+          <p class="section-desc">From emergency repairs to full system installations, our licensed technicians deliver professional, reliable service for every HVAC need.</p>
+        </div>
+        <div class="services-grid">
+          {services.map((s) => (<ServiceCard title={s.title} description={s.description} href={s.href} icon={s.icon} />))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="section why-section" aria-label="Why Chicago homeowners choose us">
+      <div class="container">
+        <div class="why-grid">
+          <div class="why-image-wrap" aria-hidden="true">
+            <img src="/images/chicago-heating-air/headerhvacservice-0.jpg" alt="" loading="lazy" width="600" height="750" />
+          </div>
+          <div>
+            <span class="section-tag">Why Choose Us</span>
+            <h2>Why Chicago Homeowners Call {BUSINESS.name}</h2>
+            <p class="why-intro">We know your home comfort matters. Here's what sets us apart from every other HVAC company in Chicago.</p>
+            <ul class="why-list">
+              <li class="why-item">
+                <span class="why-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+                <div><strong>Fast response times</strong><p>We prioritize your call and get a technician to your home quickly — especially when your system is down.</p></div>
+              </li>
+              <li class="why-item">
+                <span class="why-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+                <div><strong>Honest diagnostics</strong><p>We thoroughly diagnose the issue and explain your options in clear terms — including repair versus replacement guidance.</p></div>
+              </li>
+              <li class="why-item">
+                <span class="why-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
+                <div><strong>Clean workmanship</strong><p>We respect your home. Our technicians work cleanly, protect your floors and furnishings, and leave your space better than they found it.</p></div>
+              </li>
+              <li class="why-item">
+                <span class="why-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></span>
+                <div><strong>Repair-first guidance</strong><p>We recommend repairs when they make sense and only suggest replacement when it's the better long-term value for you.</p></div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Strip -->
+    <section class="stats-strip" aria-label="Company stats">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-item">
+            <span class="stat-number">{BUSINESS.googleRating}</span>
+            <span class="stat-label">Google Rating</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">{BUSINESS.googleReviewCount}+</span>
+            <span class="stat-label">Reviews</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">Est. 2010</span>
+            <span class="stat-label">Serving Chicago</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">NATE</span>
+            <span class="stat-label">Certified Technicians</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Emergency CTA Band -->
+    <section class="emergency-cta" aria-label="Emergency HVAC service">
+      <div class="container">
+        <div class="emergency-inner">
+          <div class="emergency-text-col">
+            <span class="section-tag section-tag--white">Emergency Service</span>
+            <h2 class="emergency-title">Need Emergency HVAC Service?</h2>
+            <p class="emergency-text">We provide urgent heating and cooling service when your system fails unexpectedly. Call us for fast, reliable help — we prioritize emergency calls and respond quickly to restore comfort to your home.</p>
+          </div>
+          <div class="emergency-cta-col">
+            <a href={`tel:${BUSINESS.phoneRaw}`} class="btn btn-primary btn-lg emergency-phone-btn">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              Call {BUSINESS.phone}
+            </a>
+            <p class="emergency-sub">Available for urgent heating, cooling &amp; AC emergencies</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="section process-section" aria-label="How it works">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Simple Process</span>
+          <h2>How It Works</h2>
+          <p class="section-desc">Getting your comfort back is simple. Three steps from call to complete.</p>
+        </div>
+        <div class="process-steps-alt">
+          <div class="process-card">
+            <span class="process-card-number" aria-hidden="true">01</span>
+            <h3>Call or Request Service</h3>
+            <p>Contact us by phone or fill out our service request form. We'll ask a few questions to understand the issue and schedule your visit.</p>
+          </div>
+          <div class="process-card">
+            <span class="process-card-number" aria-hidden="true">02</span>
+            <h3>Get a Clear Diagnosis</h3>
+            <p>Our NATE-certified technician arrives, inspects your system thoroughly, and explains the issue with transparent, upfront pricing.</p>
+          </div>
+          <div class="process-card">
+            <span class="process-card-number" aria-hidden="true">03</span>
+            <h3>We Restore Your Comfort</h3>
+            <p>We complete the repair or installation efficiently, test everything, and make sure you're completely satisfied before we leave.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <ReviewSummary title="Trusted by Chicago Homeowners" subtitle={`With a ${BUSINESS.googleRating}-star rating on Google, we're proud to serve our community with professional HVAC service.`} />
+
+    <FAQ items={faqItems} title="HVAC Questions &amp; Answers" subtitle="Common questions about our HVAC services in Chicago, IL." />
+
+    <!-- Service Area -->
+    <section class="section area-section" aria-label="Service area">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Service Area</span>
+          <h2>Proudly Serving Chicago</h2>
+          <p class="section-desc">From Hyde Park to Beverly, we provide HVAC services throughout Chicago and nearby communities.</p>
+        </div>
+        <div class="area-grid">{BUSINESS.neighborhoods.map((n) => (<span class="area-chip" key={n}>{n}</span>))}</div>
+      </div>
+    </section>
+
+    <ContactForm title="Ready to Get Started?" subtitle={`Contact ${BUSINESS.name} today for professional HVAC service in Chicago, IL. We'll respond promptly.`} />
+
+    <!-- Map / Address Block -->
+    <section class="section map-section" aria-label="Location">
+      <div class="container">
+        <div class="map-address">
+          <div class="map-info">
+            <span class="section-tag">Our Location</span>
+            <h3>Visit or Contact Us</h3>
+            <address>
+              <strong>{BUSINESS.name}</strong><br />
+              {BUSINESS.address.street}<br />
+              {BUSINESS.address.city}, {BUSINESS.address.state} {BUSINESS.address.zip}
+            </address>
+            <a href={BUSINESS.googleMapsUrl} target="_blank" rel="noopener noreferrer" class="btn btn-outline">View on Google Maps</a>
+          </div>
+          <div class="map-embed">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2972.5!2d-87.5823921!3d41.7666751!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880e2955ea9f79c7%3A0x3ee2003951d133f0!2sChicago+Heating+%26+Air!5e0!3m2!1sen!2sus!4v1" width="600" height="350" style="border:0;border-radius:0.75rem;width:100%;height:100%;min-height:300px;" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title={`Map showing ${BUSINESS.name} location in Chicago, IL`}></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Mobile Sticky CTA -->
+  <div class="mobile-sticky-cta" aria-label="Quick actions">
+    <a href={`tel:${BUSINESS.phoneRaw}`} class="sticky-call">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      Call Now
+    </a>
+    <a href="/contact/" class="sticky-request">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      Request Service
+    </a>
+  </div>
+
+  <Footer />
+</BaseLayout>
+
+<style is:global>
+  /* Services Grid */
+  .services-section { background: #fff; }
+  .services-grid { display: grid; grid-template-columns: 1fr; gap: 1.25rem; }
+  @media (min-width: 640px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1024px) { .services-grid { grid-template-columns: repeat(4, 1fr); } }
+
+  /* Why Section */
+  .why-section { background: #f8fafc; }
+  .why-grid { display: grid; grid-template-columns: 1fr; gap: 3rem; align-items: center; }
+  @media (min-width: 900px) { .why-grid { grid-template-columns: 0.9fr 1.1fr; } }
+  .why-intro { color: #64748b; font-size: 1.05rem; margin: 1rem 0 2rem; line-height: 1.7; }
+  .why-list { list-style: none; display: flex; flex-direction: column; gap: 1.5rem; }
+  .why-item { display: flex; gap: 1rem; align-items: flex-start; }
+  .why-icon { flex-shrink: 0; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: #fff7ed; border-radius: 0.75rem; }
+  .why-item strong { display: block; font-size: 1.05rem; margin-bottom: 0.25rem; color: #1a1a2e; }
+  .why-item p { color: #64748b; font-size: 0.925rem; line-height: 1.6; }
+  .why-image-wrap { display: none; }
+  @media (min-width: 900px) { .why-image-wrap { display: block; } }
+  .why-image-wrap img { width: 100%; height: auto; border-radius: 1rem; aspect-ratio: 4/5; object-fit: cover; }
+
+  /* Stats Strip */
+  .stats-strip {
+    padding: 3.5rem 0;
+    background: #1a1a2e;
+    color: #fff;
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    text-align: center;
+  }
+  @media (min-width: 640px) { .stats-grid { grid-template-columns: repeat(4, 1fr); } }
+  .stat-number {
+    display: block;
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: #f97316;
+    line-height: 1;
+    margin-bottom: 0.375rem;
+  }
+  .stat-label {
+    font-size: 0.875rem;
+    color: #94a3b8;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Emergency CTA */
+  .emergency-cta {
+    padding: 5rem 0;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    color: #fff;
+  }
+  .emergency-inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    align-items: center;
+  }
+  @media (min-width: 768px) { .emergency-inner { grid-template-columns: 1.2fr 1fr; } }
+  .emergency-title { color: #fff; margin-bottom: 1rem; }
+  .emergency-text { color: #94a3b8; font-size: 1.05rem; line-height: 1.7; }
+  .emergency-cta-col { text-align: center; }
+  .emergency-phone-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.125rem 2.5rem;
+    font-size: 1.25rem;
+    min-height: 64px;
+  }
+  .btn-lg { font-size: 1.125rem; padding: 1rem 2.5rem; }
+  .emergency-sub {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: #64748b;
+  }
+
+  .process-section { background: #fff; }
+
+  /* Area */
+  .area-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.625rem; max-width: 700px; margin: 0 auto; }
+  .area-chip { display: inline-block; padding: 0.5rem 1rem; background: #f1f5f9; color: #475569; font-size: 0.875rem; font-weight: 500; border-radius: 9999px; transition: background 0.2s, color 0.2s; }
+  .area-chip:hover { background: #f97316; color: #fff; }
+
+  /* Map */
+  .map-section { background: #f8fafc; padding-bottom: 0; }
+  .map-address { display: grid; grid-template-columns: 1fr; gap: 2.5rem; align-items: center; max-width: 960px; margin: 0 auto; }
+  @media (min-width: 768px) { .map-address { grid-template-columns: 1fr 1.5fr; } }
+  .map-info h3 { margin-bottom: 1rem; }
+  .map-info address { font-style: normal; color: #475569; font-size: 1rem; line-height: 1.7; margin-bottom: 1.25rem; }
+  .map-embed { border-radius: 0.75rem; overflow: hidden; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); }
+
+  /* Mobile Sticky CTA */
+  .mobile-sticky-cta { display: flex; position: fixed; bottom: 0; left: 0; right: 0; z-index: 200; box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); }
+  @media (min-width: 768px) { .mobile-sticky-cta { display: none; } }
+  .sticky-call, .sticky-request { flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.875rem 1rem; font-size: 0.9375rem; font-weight: 700; text-decoration: none; }
+  .sticky-call { background: #f97316; color: #fff; }
+  .sticky-request { background: #1a1a2e; color: #fff; }
+  .sticky-call:hover, .sticky-request:hover { filter: brightness(1.1); }
+</style>

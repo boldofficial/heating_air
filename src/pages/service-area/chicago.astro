@@ -1,0 +1,96 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Hero from '../../components/Hero.astro';
+import ContactForm from '../../components/ContactForm.astro';
+import LocalBusinessSchema from '../../components/LocalBusinessSchema.astro';
+import { BUSINESS, SITE_CONFIG } from '../../config/business';
+
+const canonical = `${SITE_CONFIG.url}/service-area/chicago/`;
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Service Area', path: '/service-area/chicago/' },
+];
+---
+
+<BaseLayout title={`Service Area: Chicago, IL | ${BUSINESS.name}`} description={`HVAC service for Chicago and surrounding neighborhoods. ${BUSINESS.name} provides AC repair, furnace repair, and HVAC maintenance across Chicago, IL. Call ${BUSINESS.phone}.`} canonical={canonical} breadcrumbs={breadcrumbs}>
+  <LocalBusinessSchema page="area" />
+  <Header currentPath="/service-area/chicago/" breadcrumbs={breadcrumbs} />
+
+  <main>
+    <Hero headline="Serving Chicago &amp; Surrounding Communities" subheadline={`From Hyde Park to Beverly and everywhere in between, ${BUSINESS.name} provides professional HVAC services throughout the Chicago area.`} backgroundImage="/images/chicago-heating-air/headerhvacservice-0.jpg" variant="interior" />
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Service Area</span>
+          <h2>HVAC Service Areas in Chicago</h2>
+          <p class="section-desc">We provide heating, cooling, and indoor air quality services to homes and businesses throughout Chicago and nearby communities.</p>
+        </div>
+
+        <div class="area-content-grid">
+          <div>
+            <h3>Chicago Neighborhoods We Serve</h3>
+            <div class="area-list-grid">
+              {BUSINESS.neighborhoods.map((n) => (
+                <div class="area-item" key={n}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  <span>{n}, Chicago</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <div class="sidebar-cta">
+              <h3>Contact Us for Service</h3>
+              <p>Not sure if we service your area? Give us a call.</p>
+              <a href={`tel:${BUSINESS.phoneRaw}`} class="btn btn-primary" style="width:100%;justify-content:center;padding:1rem;">{BUSINESS.phone}</a>
+              <a href="/contact/" class="btn btn-outline" style="width:100%;justify-content:center;margin-top:0.75rem;">Request Service</a>
+            </div>
+            <div class="sidebar-cta" style="margin-top:1rem;">
+              <h3>Our Location</h3>
+              <address style="font-style:normal;color:#475569;line-height:1.7;"><strong>{BUSINESS.name}</strong><br />{BUSINESS.address.street}<br />{BUSINESS.address.city}, {BUSINESS.address.state} {BUSINESS.address.zip}</address>
+              <a href={BUSINESS.googleMapsUrl} target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="width:100%;justify-content:center;margin-top:1rem;">View on Google Maps</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="background:#f8fafc;padding:4rem 0;">
+      <div class="container">
+        <div style="max-width:800px;margin:0 auto;">
+          <h2 class="text-center" style="margin-bottom:1rem;">Common Questions About Our Service Area</h2>
+          <div class="area-faq-list">
+            <details class="area-faq-item"><summary class="area-faq-question">Do you service all of Chicago?<svg class="area-faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="area-faq-answer"><p>Yes, we provide HVAC services throughout Chicago and many surrounding neighborhoods. If you're unsure whether we cover your area, please call us to confirm.</p></div></details>
+            <details class="area-faq-item"><summary class="area-faq-question">Do you offer commercial HVAC services in Chicago?<svg class="area-faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="area-faq-answer"><p>Yes, we provide commercial HVAC services for businesses, office buildings, retail spaces, and multi-family properties throughout the Chicago area.</p></div></details>
+            <details class="area-faq-item"><summary class="area-faq-question">How quickly can you get to my home?<svg class="area-faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="area-faq-answer"><p>Response times vary by location and season. We prioritize emergency calls and do our best to offer same-day service when available. Call us for current availability.</p></div></details>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <ContactForm title="Request HVAC Service in Your Area" subtitle="Tell us where you're located and what you need, and we'll confirm service availability." />
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style is:global>
+  .area-content-grid { display: grid; grid-template-columns: 1fr; gap: 2.5rem; align-items: start; max-width: 1000px; margin: 0 auto; }
+  @media (min-width: 800px) { .area-content-grid { grid-template-columns: 1.5fr 1fr; } }
+  .area-list-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.625rem; margin-top: 1rem; }
+  .area-item { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0.75rem; background: #f8fafc; border-radius: 0.5rem; font-size: 0.9rem; color: #475569; transition: background 0.2s; }
+  .area-item:hover { background: #fff7ed; }
+  .area-faq-list { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 0.75rem; }
+  .area-faq-item { border: 1px solid #e2e8f0; border-radius: 0.75rem; overflow: hidden; transition: border-color 0.2s; }
+  .area-faq-item[open] { border-color: #f97316; }
+  .area-faq-question { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.25rem 1.5rem; font-weight: 600; font-size: 1rem; color: #1a1a2e; cursor: pointer; list-style: none; }
+  .area-faq-question::-webkit-details-marker { display: none; }
+  .area-faq-question:hover { background: #f8fafc; }
+  .area-faq-chevron { flex-shrink: 0; transition: transform 0.3s ease; color: #f97316; }
+  .area-faq-item[open] .area-faq-chevron { transform: rotate(180deg); }
+  .area-faq-answer { padding: 0 1.5rem 1.25rem; color: #475569; font-size: 0.9375rem; line-height: 1.7; }
+</style>
