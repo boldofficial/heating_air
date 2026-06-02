@@ -2,20 +2,29 @@
 
 This site is built with Astro and configured for Cloudflare Pages deployment.
 
-## Quick Deploy
+## GitHub Actions (Recommended)
 
-1. **Connect your repo** in the Cloudflare Dashboard → Pages → Create a project → Connect to Git.
+This repo includes a GitHub Actions workflow (`.github/workflows/deploy.yml`) that auto-deploys to Cloudflare Pages on every push to `main`.
 
-2. **Build settings:**
-   - Framework preset: **Astro**
-   - Build command: `npm run build`
-   - Build output directory: `dist`
-   - Node.js version: 18+ (or use the latest)
+### One-time setup:
 
-3. **Environment variables (optional):**
-   - None required for static deployment.
+1. **Create a Cloudflare API Token**
+   - Go to [Cloudflare Dashboard → API Tokens](https://dash.cloudflare.com/profile/api-tokens)
+   - Click **Create Token** → **Create Custom Token**
+   - Token name: `GitHub Pages Deploy`
+   - Permissions: **Cloudflare Pages** → **Edit**
+   - Account Resources: **Include** → **Your Account**
+   - Click **Continue to Summary** → **Create Token**
+   - **Copy the token** (shown only once)
 
-4. **Deploy!** Cloudflare will automatically detect the `_headers`, `_redirects`, and `robots.txt` files from the output directory.
+2. **Add the token to GitHub Secrets**
+   - Go to `https://github.com/boldofficial/heating_air/settings/secrets/actions`
+   - Click **New repository secret**
+   - Name: `CLOUDFLARE_API_TOKEN`
+   - Value: *(paste your API token)*
+   - Click **Add secret**
+
+3. **Push to `main`** — deployment happens automatically!
 
 ## Manual Deploy (via Wrangler CLI)
 
@@ -32,6 +41,16 @@ npm run build
 # Deploy
 npx wrangler pages deploy dist/ --project-name=chicago-heating-air
 ```
+
+## Alternative: Cloudflare Dashboard Git Integration
+
+1. Go to **Cloudflare Dashboard** → **Workers & Pages** → **Create** → **Pages** → **Connect to Git**
+2. Authorize GitHub and select `boldofficial/heating_air`
+3. Build settings:
+   - Framework: **Astro**
+   - Build command: `npm run build`
+   - Output directory: `dist`
+4. Deploy!
 
 ## Post-Deployment Checklist
 
