@@ -59,36 +59,63 @@ const showBreadcrumbs = breadcrumbs && breadcrumbs.length > 0 && currentPath !==
       {BUSINESS.phone}
     </a>
 
-    <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" id="navToggle">
-      <span class="hamburger-line"></span>
-      <span class="hamburger-line"></span>
-      <span class="hamburger-line"></span>
-    </button>
-  </div>
+    <div class="mobile-menu">
+      <!-- Hidden checkbox drives the show/hide via CSS sibling selectors -->
+      <input type="checkbox" id="menu-toggle" class="menu-checkbox" aria-hidden="true">
 
-  <nav class="nav-mobile" id="navMobile" aria-label="Mobile navigation" hidden>
-    <ul class="nav-mobile-list">
-      {navLinks.map((link) => (
-        <li>
-          <a
-            href={link.href}
-            class={`nav-mobile-link${currentPath === link.href ? ' nav-link--active' : ''}`}
-            data-mobile-nav
-          >
-            {link.label}
+      <label for="menu-toggle" class="nav-toggle" aria-label="Toggle navigation menu" tabindex="0" role="button">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </label>
+
+      <nav id="mobile-nav-panel" class="nav-mobile" aria-label="Mobile navigation">
+        <ul class="nav-mobile-list">
+          {navLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class={`nav-mobile-link${currentPath === link.href ? ' nav-link--active' : ''}`}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+        <div class="nav-mobile-cta">
+          <a href={`tel:${BUSINESS.phoneRaw}`} class="btn btn-primary" style="width:100%;justify-content:center;">
+            Call {BUSINESS.phone}
           </a>
-        </li>
-      ))}
-    </ul>
-    <div class="nav-mobile-cta">
-      <a href={`tel:${BUSINESS.phoneRaw}`} class="btn btn-primary" style="width:100%;justify-content:center;">
-        Call {BUSINESS.phone}
-      </a>
-      <a href="/contact/" class="btn btn-outline" style="width:100%;justify-content:center;margin-top:0.5rem;">
-        Request Service
-      </a>
+          <a href="/contact/" class="btn btn-outline" style="width:100%;justify-content:center;margin-top:0.5rem;">
+            Request Service
+          </a>
+        </div>
+      </nav>
     </div>
-  </nav>
+
+    <script is:inline>
+      (function() {
+        var checkbox = document.getElementById('menu-toggle');
+        var panel = document.getElementById('mobile-nav-panel');
+        if (!checkbox || !panel) return;
+
+        // Close menu when a nav link is clicked
+        panel.querySelectorAll('.nav-mobile-link').forEach(function(link) {
+          link.addEventListener('click', function() {
+            checkbox.checked = false;
+          });
+        });
+
+        // Close menu on Escape key
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape' && checkbox.checked) {
+            checkbox.checked = false;
+            document.querySelector('.nav-toggle').focus();
+          }
+        });
+      })();
+    </script>
+  </div>
 </header>
 
 <!-- Breadcrumb Bar (interior pages only) -->
@@ -115,34 +142,11 @@ const showBreadcrumbs = breadcrumbs && breadcrumbs.length > 0 && currentPath !==
   </nav>
 )}
 
-<script>
-  const toggle = document.getElementById('navToggle');
-  const menu = document.getElementById('navMobile');
-  const mobileLinks = document.querySelectorAll('[data-mobile-nav]');
-
-  if (toggle && menu) {
-    toggle.addEventListener('click', () => {
-      const isOpen = menu.hidden;
-      menu.hidden = !isOpen;
-      toggle.setAttribute('aria-expanded', String(isOpen));
-      document.body.style.overflow = isOpen ? 'hidden' : '';
-    });
-
-    mobileLinks.forEach((link) => {
-      link.addEventListener('click', () => {
-        menu.hidden = true;
-        toggle.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
-      });
-    });
-  }
-</script>
-
 <style is:global>
   .site-header {
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 300;
     background: rgba(255, 255, 255, 0.97);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
@@ -167,6 +171,7 @@ const showBreadcrumbs = breadcrumbs && breadcrumbs.length > 0 && currentPath !==
   .logo-text {
     display: flex;
     flex-direction: column;
+    min-width: 0;
   }
 
   .logo-name {
@@ -220,21 +225,42 @@ const showBreadcrumbs = breadcrumbs && breadcrumbs.length > 0 && currentPath !==
     .header-phone { display: inline-flex; }
   }
 
+  .mobile-menu {
+    display: flex;
+  }
+
+  /* Hidden checkbox that drives the menu toggle */
+  .menu-checkbox {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+  }
+
   .nav-toggle {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     gap: 5px;
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     padding: 8px;
     background: none;
     border: none;
     border-radius: 0.375rem;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .nav-toggle:focus-visible {
+    outline: 2px solid #f97316;
+    outline-offset: 2px;
   }
 
   @media (min-width: 1024px) {
-    .nav-toggle { display: none; }
+    .mobile-menu { display: none; }
   }
 
   .hamburger-line {
@@ -246,13 +272,26 @@ const showBreadcrumbs = breadcrumbs && breadcrumbs.length > 0 && currentPath !==
     transition: transform 0.2s;
   }
 
-  .nav-toggle[aria-expanded="true"] .hamburger-line:nth-child(1) {
+  /* Menu hidden by default */
+  .nav-mobile {
+    display: none;
+  }
+
+  /* Show menu when checkbox is checked */
+  .menu-checkbox:checked ~ .nav-mobile {
+    display: flex;
+  }
+
+  /* Hamburger animation when menu is open */
+  .menu-checkbox:checked ~ .nav-toggle .hamburger-line:nth-child(1) {
     transform: rotate(45deg) translate(5px, 5px);
   }
 
-  .nav-toggle[aria-expanded="true"] .hamburger-line:nth-child(2) { opacity: 0; }
+  .menu-checkbox:checked ~ .nav-toggle .hamburger-line:nth-child(2) {
+    opacity: 0;
+  }
 
-  .nav-toggle[aria-expanded="true"] .hamburger-line:nth-child(3) {
+  .menu-checkbox:checked ~ .nav-toggle .hamburger-line:nth-child(3) {
     transform: rotate(-45deg) translate(5px, -5px);
   }
 
@@ -266,9 +305,10 @@ const showBreadcrumbs = breadcrumbs && breadcrumbs.length > 0 && currentPath !==
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     padding: 1.5rem;
-    z-index: 99;
-    display: flex;
+    z-index: 299;
     flex-direction: column;
+    overflow-y: auto;
+    box-shadow: 0 14px 30px rgba(15, 23, 42, 0.12);
   }
 
   .nav-mobile-list {
@@ -296,7 +336,7 @@ const showBreadcrumbs = breadcrumbs && breadcrumbs.length > 0 && currentPath !==
   }
 
   @media (min-width: 1024px) {
-    .nav-mobile { display: none !important; }
+    .menu-checkbox:checked ~ .nav-mobile { display: none !important; }
   }
 
   /* Breadcrumb Bar */
@@ -340,5 +380,26 @@ const showBreadcrumbs = breadcrumbs && breadcrumbs.length > 0 && currentPath !==
   .breadcrumb-chevron {
     color: #94a3b8;
     flex-shrink: 0;
+  }
+
+  @media (max-width: 420px) {
+    .header-inner {
+      height: 64px;
+      gap: 0.75rem;
+    }
+
+    .logo-name {
+      font-size: 1rem;
+    }
+
+    .logo-tagline {
+      font-size: 0.6875rem;
+      letter-spacing: 0.03em;
+    }
+
+    .nav-mobile {
+      top: 64px;
+      padding: 1rem;
+    }
   }
 </style>
