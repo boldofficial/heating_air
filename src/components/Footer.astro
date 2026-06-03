@@ -85,6 +85,7 @@ import { BUSINESS } from '../config/business';
         <a href="/contact/">Contact</a>
         <a href="/service-area/chicago/">Service Area</a>
       </nav>
+      <p class="footer-credit">Developed by <a href="https://getboldideas.com" target="_blank" rel="noopener noreferrer">BOLD IDEAS</a></p>
     </div>
   </div>
 </footer>
@@ -159,6 +160,8 @@ import { BUSINESS } from '../config/business';
     align-items: flex-start;
     gap: 0.625rem;
     font-size: 0.9rem;
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
 
   .footer-contact-item a { color: #cbd5e1; transition: color 0.2s; }
@@ -175,6 +178,7 @@ import { BUSINESS } from '../config/business';
   .footer-hours li {
     display: flex;
     justify-content: space-between;
+    gap: 1rem;
   }
 
   .footer-emergency {
@@ -207,7 +211,7 @@ import { BUSINESS } from '../config/business';
     }
   }
 
-  .footer-bottom-links { display: flex; gap: 1.5rem; }
+  .footer-bottom-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem 1.5rem; }
 
   .footer-bottom-links a {
     color: #94a3b8;
@@ -215,4 +219,40 @@ import { BUSINESS } from '../config/business';
   }
 
   .footer-bottom-links a:hover { color: #f97316; }
+
+  .footer-credit {
+    font-size: 0.8rem;
+    color: #64748b;
+  }
+
+  .footer-credit a {
+    color: #f97316;
+    font-weight: 600;
+    transition: color 0.2s;
+  }
+
+  .footer-credit a:hover {
+    color: #fb923c;
+    text-decoration: underline;
+  }
+
+  @media (max-width: 480px) {
+    .site-footer {
+      padding-top: 3rem;
+    }
+
+    .footer-grid {
+      gap: 2rem;
+    }
+
+    .footer-hours li {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 0.125rem;
+    }
+
+    .footer-emergency {
+      flex-direction: row;
+    }
+  }
 </style>
